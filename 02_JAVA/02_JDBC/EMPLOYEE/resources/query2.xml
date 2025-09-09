@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="insertEmployee">
+	INSERT INTO EMPLOYEE 
+	VALUES(
+	 ?,
+	 ?,
+	 ?,
+	 ?,
+	 ?,
+	 ?,
+	 SYSDATE
+	 )</entry>
+<entry key="insertEmployeeSalary">
+	INSERT INTO SALARY
+	VALUES(
+	 ?,
+	 ?,
+	 ?,
+	 ?
+	 )</entry>
+<entry key="selectEmployeeList">
+SELECT * FROM EMPLOYEE E
+			  ,SALARY S
+			  ,DEPT_TABLE D
+WHERE E.DEPT_CODE = D.DEPT_ID
+
+</entry>
+<entry key="updateEmployee">
+UPDATE EMPLOYEE SET ADDRESS=?, EMAIL=?, PHONE=?, DEPT_CODE=? WHERE EMP_NO=?
+</entry>
+<entry key="updateEmployeeSalary">
+UPDATE SALARY SET SALARY=? WHERE EMP_NO=?
+</entry>
+<entry key="deleteEmployee">
+DELETE FROM EMPLOYEE WHERE EMP_NO=? AND EMP_NAME=?
+</entry>
+<entry key="deleteEmployeeSalary">
+DELETE FROM SALARY WHERE EMP_NO=? AND EMP_NAME=?
+</entry>
+<entry key="keywordEmployee">
+SELECT * FROM
+EMPLOYEE E
+JOIN DEPT_TABLE D ON E.DEPT_CODE = D.DEPT_ID
+JOIN SALARY S ON E.EMP_NO = S.EMP_NO
+WHERE E.EMP_NAME LIKE '%' || ?  ||'%' 
+</entry>
+<entry key="keywordDept">
+SELECT DEPT_TITLE FROM DEPT_TABLE 
+JOIN EMPLOYEE ON (DEPT_CODE = DEPT_ID)
+WHERE EMP_NAME LIKE ?
+</entry>
+<entry key="deleteAllEmployee">
+TRUNCATE TABLE EMPLOYEE
+</entry>
+<entry key="countEmployee">
+SELECT COUNT(*) AS 사원수 FROM EMPLOYEE
+</entry>
+<entry key="countDept">
+SELECT D.DEPT_TITLE AS "부서명", COUNT(*) AS "인원수" 
+FROM EMPLOYEE E 
+JOIN DEPT_TABLE D ON E.DEPT_CODE = D.DEPT_ID
+ GROUP BY D.DEPT_TITLE
+ ORDER BY "부서명"
+</entry>
+</properties>

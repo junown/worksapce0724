@@ -1,0 +1,36 @@
+package com.kh.controller;
+
+import java.util.Scanner;
+
+public class Practice2 {
+	/*
+	 * 성별을(m/f)(대소문자 상관x)로 입력받아 남학생인지 여학생인지
+	 * 출력하는 프로그램을 작성해라
+	 * 
+	 * [출력]
+	 * 성별(m/f) : x
+	 * 여학생입니다 / 남학생입니다 / 잘못입력하셨습니다
+	 * */
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("성별(m/f) : ");
+		//         문자열입력 . 대문자로모두변경   .맨앞글자추출
+		char stu = sc.next().toUpperCase().charAt(0);
+		//toUpperCase() : 모든 문자열을 대문자로 변환
+		//toLowerCase() : 모든 문자열을 소문자로 변환
+		String stu2 = null;
+		
+		switch (stu) {
+		case 'm' :
+			stu2 = "남학생";
+			break;
+		case 'f' :
+			stu2 = "여학생";
+			break;
+			default : System.out.println("잘못입력하셨습니다");
+		}
+		System.out.println(stu2 + "입니다");
+		
+	}
+
+}
