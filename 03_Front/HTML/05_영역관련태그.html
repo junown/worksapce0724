@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영역관련태그</title>
+    <style>
+        div{
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            display: inline;
+        }
+        span{
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        블럭요소 : 한줄 단위로 영역을 차지함
+                  줄바꿈이 적용되어 이미 존재하는 태그의 다음줄에 다음영역이 잡힘.
+                  (p, pre, div, h...)
+        인라인요소 : content(내용) 영역에 해당하는 부분만 영역을 차지하는 요소
+                    줄바꿈이 적용되지 않아 다음영역에 바로 옆으로 잡힘
+                    (b, mark, s, img, span...)
+    -->
+    <h1>영역관련태그</h1>
+    <h2>div태그와 span태그의 차이점1 : 줄바꿈처리</h2>
+
+    <div style="background: red;">첫번째 영역</div>
+    <div style="background: orange;">두번째 영역</div>
+    <div style="background: yellow;">세번째 영역</div>
+
+    <h3>span태그</h3>
+    <p>span태그는 인라인 요소로 content영역만 차지(줄바꿈 발생x)</p>
+    <span style="background: red;;">첫번째 영역</span>
+    <span style="background: orange;">두번째 영역</span>
+    <span style="background: yellow;">세번째 영역</span>
+
+    <h2>div태그와 span태그의 차이점2 : 영역지정방식</h2>
+    <h3>div태그 : 사각형 박스로 영역을 지정.</h3>
+    <div style="height: auto;">
+미국 조지아주(州) 현대차·LG에너지솔루션 합작 공장에서 한국인 300여 명이 구금된 가운데, 백악관은 9일 외국 기업 근로자의 비자 문제 등을 해결하기 위해 상무부와 국토안보부가 공동 대응에 나설 것이라고 밝혔다. 캐럴라인 레빗 백악관 대변인은 이날 오후 
+브리핑에서 이번 사태의 재발 방지 차원에서 미 정부가 비자 관련 법규 개정 등을 추진하고 있냐는 질문에 “도널드 트럼프 대통령은 (미국에 투자한) 기업이 고도로 숙련되고 훈련된 기술자들을 데려올 필요성을 이해하고 있다”며 이같이 밝혔다.
+레빗은 “반도체와 같은 매우 특수한 제품이나 조지아에서처럼 배터리 같은 것을 만들 때는 더욱 그렇다”며 “그래서 대통령이 매우 미묘하면서도 책임 있는 입장을 취한 것이다. 국토안보부와 상무부가 이 문제에 함께 대응하고 있다”고 했다. 조지아를 비롯해
+ 테네시·켄터키 등 미 전역에 생산 시설을 짓고 있는 우리 기업은 현지에서 숙련된 인력을 고용하는 데 어려움을 겪고 있다. 또 초반에는 현장 안정화, 원활한 의사소통 등을 위해 한국에서 숙련된 인력을 파견받는 것이 불가피한데 비자를 받는 것이 마땅치 않아 단기 상용 비자(B-1)나 전자여행허가(ESTA) 등을 통해 미국에 들어와 편법으로 일을 해왔다.
+    </div>
+    <h3>span태그 : 문장단위로 영역을 지정</h3>
+    <span style="height: auto;">
+미국 조지아주(州) 현대차·LG에너지솔루션 합작 공장에서 한국인 300여 명이 구금된 가운데, 백악관은 9일 외국 기업 근로자의 비자 문제 등을 해결하기 위해 상무부와 국토안보부가 공동 대응에 나설 것이라고 밝혔다. 캐럴라인 레빗 백악관 대변인은 이날 오후 
+브리핑에서 이번 사태의 재발 방지 차원에서 미 정부가 비자 관련 법규 개정 등을 추진하고 있냐는 질문에 “도널드 트럼프 대통령은 (미국에 투자한) 기업이 고도로 숙련되고 훈련된 기술자들을 데려올 필요성을 이해하고 있다”며 이같이 밝혔다.
+레빗은 “반도체와 같은 매우 특수한 제품이나 조지아에서처럼 배터리 같은 것을 만들 때는 더욱 그렇다”며 “그래서 대통령이 매우 미묘하면서도 책임 있는 입장을 취한 것이다. 국토안보부와 상무부가 이 문제에 함께 대응하고 있다”고 했다. 조지아를 비롯해
+ 테네시·켄터키 등 미 전역에 생산 시설을 짓고 있는 우리 기업은 현지에서 숙련된 인력을 고용하는 데 어려움을 겪고 있다. 또 초반에는 현장 안정화, 원활한 의사소통 등을 위해 한국에서 숙련된 인력을 파견받는 것이 불가피한데 비자를 받는 것이 마땅치 않아 단기 상용 비자(B-1)나 전자여행허가(ESTA) 등을 통해 미국에 들어와 편법으로 일을 해왔다.
+    </span>
+
+    <hr>
+
+    <h1>iframe</h1>
+    <p>웹문서 안에 다른 웹페이지를 추가하는 태그(인라인요소)</p>
+    <iframe src="./04_미디어관련태그.html" frameborder="0" width="300" height="300"></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/R32Sf3M-VLk?si=wdRxDeRcgVkmdh3_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"
+</body>
+</html>

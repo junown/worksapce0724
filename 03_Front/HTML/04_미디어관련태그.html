@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>이미지 관련 태그</h1>
+    <!--<img src="추가하려는 이미지 경로" [alt="이미지설명문구"] widht="가로길이(px/%)" height="세로길이"-->
+
+    <h3>src속성</h3>
+    <p>불러올 이미지 리소스의 결로를 나타냄</p>
+    <img src="./images/sample.png" alt="햄스터">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANIAAADSCAMAAAAIR25wAAAAFVBMVEX///8AAAD/fn7/4LD/5OT/LCxjV1cmpmzXAAADPklEQVR4nO2a23qDIBAGpZq+/yNX0chpQTykbPhmrlKU5J8uIaAOAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWMxM6wwPY3ZaJ3kO49M6zDPMIr8LPTpZrdZhHsJX6sSJMn0F/ZXJmM7KZHyjHsoUCa0/Tyff47XykXynSYR+zy8jXo7PBa3HxE7n10bW5efnR5uUiQddtdUmZNHi5KxCi7pa+UaanNxqXGotdgyMVqkPxjyJHP7AKjZK6pTp33YrU/z0RCksU26uab89y398YhQ4Lb3Gmbj31jy2XalkrIpKb6M4u9/cdKkiDhVByTnt0ZfwwTu55tarr1TqQGk8UBqbKw2JlaS0OwXR/R+8UWxvRzAAS0omVPLQpjT4pUon8dVpO2sUncbRb2+r4rFZ5ZReQzjAsqgp04J1eolOVsnUKilymlO/ZKXZKR5g3+H03vfdU9I09nI6b6VKIUV1KghZJRc4MVBapqLRrOSXIKmJSqeikJ3y+lXaxtnWTR54ue3n/1I28pU8oYVYZz36dUrBpQ3JaDmhrc9QoZRUwa11UyEVZTpUGsLIIekx9UoXrnxpUCo59ad05fKkipGXdbp0wVWHkux09f5Fe6XMQvz6HRkFSu/tUuJz8TK/BqXg9p/jajIdSkNidSOZGqWEyzOXaqVr2RTM4jk6VLrh9HCQx7gx8h5O8hhdzg9p22Q57KjUSQg27ZztqYPrSmpHXpJrmuqVVDqlsaZqJ8VKQbKpXknnyLP/aJdsfhUqBTehhd7/k/IUNpSvNKGkj03J7H+eVFLo9FbaDbJKUny9SntxjKDkXgnxNSuZrJIrYLa7LnYlY+PHc/hkPNtsd11smdy9l0l2ymyqdCr5z2QPqVL5EVCNSkmoRKn4qOyXKp3prYL+lNIh9eVK0pfkjJK+1YP8tT9VJIVKQmtkVIqtzsgu7YTmZAovvMHnwl1iXRcIB+qNdCodTgD5EzQqHU8BuUKux7QZ7VuK8jnZM9Q8DuphKsqUt9ZoVFWm3Bn5lWxbjMlOeu4UqZCFtXlrTA2xUmmzoYFaqfj8lpnvIim2znSfznQAAAAAAAAAAAAAAAAAAAAAAAAAQAN/nMgeC2j4jxwAAAAASUVORK5CYII=">
+
+    <h3>alt속성</h3>
+    <p>
+        - 이미지의 경로가 잘못되었거나 이미지를 제대로 불러올 수 없을 때 대체 텍스트로 사용 <br>
+        - 시작장애인들을 위한 스크린리더에서 이미지를 읽어주는 설명문구
+    </p>
+
+    <h3>widht속성 height속성</h3>
+    <h4>고정길이단위(px) : 화면사이즈와 상관없이 이미지크기는 고정되어 있음</h4>
+    <img src="./images/sample.png" alt="햄스터" width="200px" height="150px">
+    <img src="./images/sample.png" alt="햄스터" width="200px" height="150px">
+    <img src="./images/sample.png" alt="햄스터" width="100px" height="150px">
+    <img src="./images/sample.png" alt="햄스터" width="100px" height="100px">
+    <h4>가변길이단위(%) : 화면사이즈 또는 부모요소 사이즈에 따라 이미지 크기가 변경</h4>
+    <img src="./images/sample.png" alt="햄스터" width="10%" height="150px">
+    <img src="./images/sample.png" alt="햄스터" width="15%" height="150px">
+    <img src="./images/sample.png" alt="햄스터" width="20%" height="150px">
+    <img src="./images/sample.png" alt="햄스터" width="25%" height="100px">
+
+    <hr>
+
+    <h1>오디오 관련 태그</h1>
+    <!--
+        <audio stc="오디오파일경로" controls autoplay loop ></audio>
+        controls : 재생도구 출력여부
+        autoplay : 자동재생(브라우저별로 지원x)
+        loop : 반복재생
+    -->
+    <audio src="" controls></audio>
+    <br>
+
+    <h1>비디오 관련태그</h1>
+    <!--<video src="비디오파일경로" controls autoplay loop width="100" height="200" poster="썸네일경로"></video> -->
+    <video src="비디오파일경로" controls autoplay loop width="300" height="200" poster="./images/sample.png"></video>
+</body>
+</html>
