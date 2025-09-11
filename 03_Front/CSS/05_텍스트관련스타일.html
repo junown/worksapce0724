@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>텍스트관련 스타일</title>
+    <style>
+        ul{
+            display: flex; 
+            list-style: none;
+        }
+        ul li{
+            width: 80px;
+            height: 50px;
+            border: 1px solid gainsboro;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>텍스트관련 스타일(text~)</h1>
+
+    <h2>color : 텍스트색상 지정</h2>
+    <pre>
+        선택자{
+            color : 색상명 | #16진수 코드값 | rgb(x,x,x) | rgba(x,x,x,x)
+        }
+    </pre>
+
+    <h2>text-decoration</h2>
+    <pre>
+        선택자{
+            text-decoration : none | underline | overline | line-throuth ...
+        }
+    </pre>
+
+    <ul>
+        <li style="text-decoration: underline;">텍스트 영역 아래 줄 긋기</li>
+         <li style="text-decoration: line-through;">텍스트 영역 취소선 긋기</li>
+          <li style="text-decoration: overline;">텍스트 영역 위에 줄 긋기</li>
+    </ul>
+
+    <a href="https://naver.com" target="_blank" style="text-decoration: none; color: black;">네이버로이동</a>
+
+    <hr>
+
+    <h3>text-align : 텍스트를 정렬할 때 사용</h3>
+    <pre>
+        선택자{
+            text-align: left | right | center | justify
+        }
+    </pre>
+
+    <h4>기본정렬(왼쪽)</h4>
+    <p>
+    녹슬지 않은 기량을 증명한 에릭센은 2022년 7월 에릭 텐 하흐 
+    감독의 부름을 받아 맨유 유니폼을 입었다. 왕성한 활동량과 날카로운 킥을 보여주며 그해 맨유 핵심 미드필더로 활약했다. 2022~2023시즌 공식전 44경기를 뛰며 2골 10도움을 기록했다. 하지만 지난 시즌 도중 아모림 감독이 부임하자 벤치를 
+    지키는 일이 잦아졌고 결국 맨유를 떠나 볼프스부르크 유니폼을 입게 됐다.
+    </p>
+
+    <h4>양쪽정렬</h4>
+    <p style="text-align: justify;">
+    녹슬지 않은 기량을 증명한 에릭센은 2022년 7월 에릭 텐 하흐 
+    감독의 부름을 받아 맨유 유니폼을 입었다. 왕성한 활동량과 날카로운 킥을 보여주며 그해 맨유 핵심 미드필더로 활약했다. 2022~2023시즌 공식전 44경기를 뛰며 2골 10도움을 기록했다. 하지만 지난 시즌 도중 아모림 감독이 부임하자 벤치를 
+    지키는 일이 잦아졌고 결국 맨유를 떠나 볼프스부르크 유니폼을 입게 됐다.
+    </p>
+
+    <h4>오른쪽정렬</h4>
+    <p style="text-align: right;">
+    녹슬지 않은 기량을 증명한 에릭센은 2022년 7월 에릭 텐 하흐 
+    감독의 부름을 받아 맨유 유니폼을 입었다. 왕성한 활동량과 날카로운 킥을 보여주며 그해 맨유 핵심 미드필더로 활약했다. 2022~2023시즌 공식전 44경기를 뛰며 2골 10도움을 기록했다. 하지만 지난 시즌 도중 아모림 감독이 부임하자 벤치를 
+    지키는 일이 잦아졌고 결국 맨유를 떠나 볼프스부르크 유니폼을 입게 됐다.
+    </p>
+
+    <h4>중앙정렬</h4>
+    <p style="text-align: center;">
+    녹슬지 않은 기량을 증명한 에릭센은 2022년 7월 에릭 텐 하흐 
+    감독의 부름을 받아 맨유 유니폼을 입었다. 왕성한 활동량과 날카로운 킥을 보여주며 그해 맨유 핵심 미드필더로 활약했다. 2022~2023시즌 공식전 44경기를 뛰며 2골 10도움을 기록했다. 하지만 지난 시즌 도중 아모림 감독이 부임하자 벤치를 
+    지키는 일이 잦아졌고 결국 맨유를 떠나 볼프스부르크 유니폼을 입게 됐다.    
+    </p>
+
+    <hr>
+
+    <h3>line-height : 글자의 높이 -> 행간을 조절할 때</h3>
+    <pre>
+        선택자{
+            line-height: normal | px | em | %
+        }
+    </pre>
+
+    <p style="line-height: 80px;">
+    녹슬지 않은 기량을 증명한 에릭센은 2022년 7월 에릭 텐 하흐 
+    감독의 부름을 받아 맨유 유니폼을 입었다. 왕성한 활동량과 날카로운 킥을 보여주며 그해 맨유 핵심 미드필더로 활약했다. 2022~2023시즌 공식전 44경기를 뛰며 2골 10도움을 기록했다. 하지만 지난 시즌 도중 아모림 감독이 부임하자 벤치를 
+    지키는 일이 잦아졌고 결국 맨유를 떠나 볼프스부르크 유니폼을 입게 됐다.    
+    </p>
+
+    <ul>
+        <li>메뉴1</li>
+        <li>메뉴2</li>
+        <li>메뉴3</li>
+    </ul>
+</body>
+</html>
