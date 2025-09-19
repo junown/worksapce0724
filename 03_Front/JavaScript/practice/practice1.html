@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js" integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"></script>
     <style>
         div{
             border: 1px solid black;
@@ -19,6 +23,8 @@
     <input type="color">
     <button onclick="changeColor();">변경</button>
 
+    <!--
+    
     <script>
         // 어떤 이벤트가 발생했을 때, 어떤 동작을 하고싶은가?
         // 클릭이벤트가 발생했을 때 color-box요소의 배경색을 input[color]요소의 선택된 값으로 변경하고 싶다.
@@ -28,13 +34,24 @@
             colorBox.style.background = inputColor.value;
         }
     </script>
+    -->
 
+    <script>
+        function changeColor(){
+            console.log($("#color-box").val())
+            $("#color-box").css("background", $("input[type=color]").val());
+        }
+    </script>
+        
+    <script>
+
+    </script>
     <h3>문제2. 버튼에 따른 크기조절이 가능하게 만들어 보세요.</h3>
     <div id="size-box"></div>
     <input type="button" value="50x50" onclick="changeSize(50, 50);">
     <input type="button" value="100x100" onclick="changeSize(100, 100);">
     <input type="button" value="200x200" onclick="changeSize(200, 200);">
-
+    <!--
     <script>
         //크기조절 버튼이 클릭됬을 때 각 버튼별 크기로 size-box의 크기를 변경하고싶다.
         function changeSize(width, height){
@@ -43,9 +60,21 @@
             sizeBox.style.height = height + "px";
         }
     </script>
+    -->
+
+    <script>
+        function changeSize(width, height){
+            $("#size-box").css({
+                "width" : width + "px",
+                "height" : height + "px"
+            })
+        }
+    </script>
+
 
     <h3>문제3. 마우스를 올리면 박스 색상이 바뀌고 벗어나면 원래 색상으로 돌아오게 만들어보세요</h3>
     <div id="hover-box" style="border: 1px solid black; background-color: black; height: 100px; width: 100px;">
+    <!--
         <script>
                 const hoverbox = document.getElementById('hover-box');
                 hoverbox.onmouseover = function(){
@@ -56,11 +85,13 @@
                     hoverbox.style.background = 'black';
                 };
         </script>
+    -->
     </div>
 
     <h3>문제4. 입력창에 글자를 입력하면 실시간으로 아래의 p 태그에 똑같이 출력되도록 만들어보세요.</h3>
     <input type="text" id="typing-input">
     <p>입력된 내용: <span id="typing-result"></span></p>
+    <!--
         <script>
             const typinginput = document.getElementById('typing-input');
             const typingresult = document.getElementById('typing-result');
@@ -68,14 +99,16 @@
                 typingresult.innerHTML = typinginput.value;
             };
         </script>
-
+        -->
     <h3>문제5. 버튼을 더블클릭하면 "더블클릭!"이라는 알림창이 뜨도록 만들어보세요.</h3>
     <button id="double-btn">더블클릭</button>
+    <!--
     <script>
         const doublebtn = document.getElementById('double-btn');
         doublebtn.ondblclick = function(){
             alert("더블클릭!");
         }
     </script>
+    -->
 </body>
 </html>

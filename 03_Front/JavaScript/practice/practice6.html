@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .searcharea{
+            background:gray;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <h1>Practice5</h1>
+        <fieldset>
+            <legend>검색할 항목을 선택하세요</legend>
+            <input type="radio" name="searchoption" id="searchtitle" value="title">
+            <label for="searchtitle">제목</label>
+            <input type="radio" name="searchoption" id="searchdate" value="date">
+            <label for="searchtitle">날짜</label>
+            <input type="radio" name="searchoption" id="searchauthor" value="author">
+            <label for="searchauthor">작성자</label>
+        </fieldset>
+
+        <div id="titlearea" class="searcharea" style="display: none;">
+            검색할 제목을 입력하세요 : <br>
+            <input type="text" size="50">
+            <button>검색</button>
+        </div>
+
+        <div id="datearea" class="searcharea" style="display: none;">
+            검색할 날짜를 선택하세요 : <br>
+            <input type="date">
+            <input type="date">
+            <button>검색</button>
+        </div>
+
+        <div id="authorarea" class="searcharea" style="display: none;">
+            검색할 작성자 아이디를 입력하세요 : <br>
+            <input type="text" size="50">
+            <button>검색</button>
+        </div>
+
+        <script>
+            const title = document.getElementById('searchtitle');
+            const date = document.getElementById('searchdate');
+            const author = document.getElementById('searchauthor');
+
+            const titlearea = document.getElementById('titlearea');
+            const datearea = document.getElementById('datearea');
+            const authorarea = document.getElementById('authorarea');
+
+            title.addEventListener('click', function(){
+                titlearea.style.display = 'block';
+                datearea.style.display = 'none';
+                authorarea.style.display = 'none';
+            })
+
+            date.addEventListener('click', function(){
+                titlearea.style.display = 'none';
+                datearea.style.display = 'block';
+                authorarea.style.display = 'none';
+            })
+
+            author.addEventListener('click', function(){
+                titlearea.style.display = 'none';
+                datearea.style.display = 'none';
+                authorarea.style.display = 'block';
+            })
+        </script>
+</body>
+</html>

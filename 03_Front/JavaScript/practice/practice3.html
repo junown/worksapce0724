@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Practice2</h3>
+    <input type="number" id="firstnum">
+    <select id="select">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+    </select>
+    <input type="number" id="secondnum">
+    <button onclick="calculate()">=</button>
+    <input type="text" readonly id="resultarea">
+
+    <script>
+        function calculate() {
+            const num1 = Number(document.getElementById('firstnum').value);
+            const num2 = Number(document.getElementById('secondnum').value);
+            const select = document.getElementById('select').value;
+            const realresult = document.getElementById('resultarea');
+
+            let result;
+
+            if ((select === '/' && select === '%') && num2 === 0){
+                realresult.innerHTML = '연산 불가';
+                realresult.style.background = 'red';
+            } else{
+                if(select === '+'){
+                    result = num1 + num2;
+                }else if(select === '-'){
+                    result = num1 - num2
+                }else if(select === '*'){
+                    result = num1 * num2
+                }else if(select === '/'){
+                    result = num1 / num2
+                }else if(select === '%'){
+                    result = num1 % num2
+                }
+
+                realresult.value = result;
+                realresult.style.backgroundColor = 'white'
+                console.log(result);
+            }
+        }
+    </script>
+</body>
+</html>

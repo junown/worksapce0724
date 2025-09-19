@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <fieldset>
+            <legend>회원가입</legend>
+        <tr>
+            <td>
+                아이디 : 
+                <input type="text" id="userId" onkeypress="checkId()">
+                <div id="isOkid"></div>
+            </td>
+            <br> <br>
+            <td>
+                비밀번호 :
+                <input type="text" id="userPwd">
+            </td>
+            <br> <br>
+            <td>
+                비밀번호 확인 :
+                <input type="text" id="userPwdcheck" onkeypress="checkPwd()">
+                <div id="isOkPwd"></div>
+            </td>
+            <br> <br>
+            <td>
+                이름 :
+                <input type="text" id="username">
+            </td>
+            <br><br>
+            <button type="button" onclick="createuser()">회원가입</button>
+        </tr>
+        </fieldset>
+    </form>
+
+    <script>
+        function checkPwd(){
+          
+            const Pwd = document.getElementById('userPwd').value;
+            const Pwdcheck = document.getElementById('userPwdcheck').value;
+            const OkPwd = document.getElementById('isOkPwd');
+             console.log(Pwd, Pwdcheck)
+             console.log(Pwd == Pwdcheck)
+            if(Pwd === "" || Pwdcheck === ""){
+                OkPwd.innerHTML = '';
+            }
+            else if(Pwd == Pwdcheck){
+                OkPwd.innerHTML = '비밀번호가 일치합니다.'
+                OkPwd.style.color = 'green';
+            }else{
+                OkPwd.innerHTML = '비밀번호가 일치하지않습니다'
+                OkPwd.style.color = 'red';
+            }
+        }
+
+        function checkId(){
+            const Id = document.getElementById('userId').value;
+            const Okid = document.getElementById('isOkid');
+
+            let testId = 'user01';
+            if(Id === testId){
+                Okid.innerHTML = '이미 존재하는 아이디입니다';
+                Okid.style.color = 'red';
+            }else{
+                Okid.innerHTML = '사용가능한 아이디입니다';
+                Okid.style.color = 'green';
+            }
+        }
+        function createuser(){
+            const Id = document.getElementById('userId');
+            const Pwd = document.getElementById('userPwd');
+            const Pwdcheck = document.getElementById('userPwdcheck');
+            const name = document.getElementById('username');
+
+            if(Id.value === ''){
+                alert('아이디를 입력해주세요');
+                return;
+            }
+            if(Pwd.value === ''){
+                alert('비밀번호를 입력해주세요');
+                return;
+            }
+            if(Pwdcheck.value === ''){
+                alert('비밀번호 확인을 해주세요');
+                return;
+            }
+            if(name.value === ''){
+                alert('이름을 입력해주세요');
+                return;
+            }
+            if(Id.value == 'user01'){
+                alert('사용할 수 없는 아이디입니다');
+                return;
+            }
+            if(Pwd.value != Pwdcheck.value){
+                alert('비밀번호가 일치하지 않습니다');
+                return;
+            }
+
+            alert(name.value + '님 회원가입이 성공적으로 완료되었습니다^^');
+            id.value = '';
+            Pwd.value = '';
+            Pwdcheck.value = '';
+            name.value = '';
+            document.getElementById('isOkid').innerHTML = '';
+            document.getElementById('isOkPwd').innerHTML = '';
+        }
+
+        
+    </script>
+</body>
+</html>

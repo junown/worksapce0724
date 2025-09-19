@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>window</h1>
+    <p>
+        window객체는 자바스크립트의 최상위 객체 BOM, DOM으로 나뉨 <br>
+        - BOM(Brower Object Model) : location(주소관리), screen(창), nevigator(브라우저)
+        - DOM(Document Object Model) : document
+    </p>
+
+    <h4>[window.]open(url, '특성')</h4>
+    <button onclick="test1()">네이버</button>
+    <script>
+        function test1(){
+            //window.open(); //새창열기
+            // window.open(url, 창이름, 옵션);
+            // window.open("http://www.naver.com");
+            //창이름 : 브루아저 창의 이름을 부여할 수 있음, 이름에 따라서 동일이름의 창은 1번만 생성됨.
+            // window.open("http://www.naver.com", "naver");
+            //옵션 : 너비, 높이, 주소창여부, 둘래...
+            /*
+                창의옵션
+                width(너비), height(높이)
+
+                => yes | no
+                resizeable(창의 크기조절 기능), location(주소창), menuber(메뉴바)
+                scrollbacr(스크롤바), status(상태표시줄), toolbar(북마크북)
+            */
+            let popup = window.open("http://www.naver.com", "naver", "width=500, height=500, resizeable=no, location=no");
+            setTimeout(function(){
+                popup.close(); //코드를 통해서 브라우저창을 닫을 수 있음
+            }, 2000);
+        }
+    </script>
+
+    <hr>
+    
+    <h3>window객체의 timer관련 메서드</h3>
+    <h4>window.setTimeOut(함수, 시간ms)</h4> <!--일정시간 후에 한줄을 극 한번만 호출 (비동기)-->
+    <button onclick="test2()">실행</button>
+    <script>
+        function test2(){
+            const myWindow = window.open();
+            // myWindow.alert("ㅋㅋㅋㅋㅋ");
+            setTimeout(function(){
+                myWindow.close();
+            }, 3000)
+
+            console.log("처음로딩 -> 화면이 그려짐");
+            console.log("서버에 데이터 요청");
+        }
+    </script>
+</body>
+</html>

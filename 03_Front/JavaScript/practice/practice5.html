@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Practice4</h1>
+    <form action="">
+        <fieldset>
+            <legend>구매 정보</legend>
+            <ul>
+            <li>
+                구매자 :
+                <input type="text" id="buy" placeholder="구매자의 이름을 입력하세요">
+            </li>
+            <li>
+                상품명 :
+                <input type="text"id="name" placeholder="구매 상품 명을 입력하세요">
+            </li>
+            <li>
+                가격 :
+                <input type="text" id="price" placeholder="구매 가격을 입력하세요">
+            </li>
+            <li>
+                구매 수량 :
+                <input type="number" id="amount" placeholder="최소 10">
+            </li>
+            <li>
+                납품 등급 :
+                <input type="range" id="grade" min="1" max="9" step="2" value="1">
+            </li>
+            <li>
+                기타 사항 :
+                <br>
+                <textarea id="etc" rows="5" cols="40"></textarea>
+            </li>
+            </ul>
+        </fieldset>
+    </form>
+    <br>
+    <button id="resultbtn" onclick="printvalue()">입력 값 출력하기</button>
+    <br><br>
+    <textarea id="resultarea" rows="10" cols="50" readonly></textarea>
+
+    <script>
+        function printvalue(){
+            const buyer = document.getElementById('buy').value;
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const amount = document.getElementById('amount').value;
+            const grade = document.getElementById('grade').value;
+            const etc = document.getElementById('etc').value;
+
+            if(amount < 10 || amount > 100){
+                alert("수량은 최소10, 최대 100이여야합니다.")
+                return;
+            }
+            const resulttext=
+            `구매자 명 : ${buyer}
+             상품 명 : ${name}
+             가격 : ${price}
+             구매 수량 : ${amount}
+             납풍등급 : ${grade}
+             기타사항 : ${etc}`;
+
+            document.getElementById('resultarea').value = resulttext;
+        }
+    </script>
+</body>
+</html>
