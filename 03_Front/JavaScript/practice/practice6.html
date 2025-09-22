@@ -10,6 +10,13 @@
             padding: 15px;
             margin-top: 15px;
         }
+        .flex-row-center{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .gap24{gap: 24px;}
 
         
     </style>
@@ -18,12 +25,14 @@
     <h1>Practice5</h1>
         <fieldset>
             <legend>검색할 항목을 선택하세요</legend>
+            <div class="flex-row-center gap24">
             <input type="radio" name="searchoption" id="searchtitle" value="title">
             <label for="searchtitle">제목</label>
             <input type="radio" name="searchoption" id="searchdate" value="date">
             <label for="searchtitle">날짜</label>
             <input type="radio" name="searchoption" id="searchauthor" value="author">
             <label for="searchauthor">작성자</label>
+            </div>
         </fieldset>
 
         <div id="titlearea" class="searcharea" style="display: none;">
@@ -54,19 +63,19 @@
             const datearea = document.getElementById('datearea');
             const authorarea = document.getElementById('authorarea');
 
-            title.addEventListener('click', function(){
+            title.addEventListener('change', function(){
                 titlearea.style.display = 'block';
                 datearea.style.display = 'none';
                 authorarea.style.display = 'none';
             })
 
-            date.addEventListener('click', function(){
+            date.addEventListener('change', function(){
                 titlearea.style.display = 'none';
                 datearea.style.display = 'block';
                 authorarea.style.display = 'none';
             })
 
-            author.addEventListener('click', function(){
+            author.addEventListener('change', function(){
                 titlearea.style.display = 'none';
                 datearea.style.display = 'none';
                 authorarea.style.display = 'block';
