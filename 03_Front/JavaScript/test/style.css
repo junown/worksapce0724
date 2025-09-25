@@ -1,0 +1,247 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
+    background: linear-gradient(135deg, #F7A5A5, #5D688A);
+    padding: 20px;
+}
+
+button{
+    border: none;
+    outline: none;
+}
+
+.container{
+    max-width: 700px;
+    margin: 0 auto;
+    background: #FFF2EF;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(255, 245, 245, 0.082);
+}
+
+header{
+    background : linear-gradient(135deg, #F7A5A5, #5D688A);
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    font-weight: 400;
+}
+
+header h1{
+    font-size: 35px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+header h4{
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+header ul{
+    list-style: none;
+    font-size: 30px;
+    color: green;
+    font-weight: 400;
+}
+
+.account-main{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    border-bottom: 1px solid white;
+}
+
+.account-main > input{
+    flex: 1;
+    min-width: 200px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.account-main input:focus {
+    border-color: #af8feb;
+}
+
+.account-inout{
+    display: flex;
+    flex-basis: 100%;
+    gap: 20px;
+    justify-content: center;
+}
+
+.account-inout button{
+    padding: 15px;
+    border-radius: 36px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    width: 100px;
+    transition: all 0.3s ease;
+}
+
+.account-inout button.active{
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px black;
+}
+
+
+.account-inout #money-inbtn{
+    background: green;
+    color: white;
+}
+
+.account-inout #money-outbtn{
+    color: red;
+}
+
+.account-main button:hover{
+    transform: translateY(-2px);
+}
+
+.account-main #account-addbtn{
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 16px;
+    color: white;
+    background: linear-gradient(135deg, #F7A5A5, #5D688A);
+    font-weight: bold;
+    display: flex;
+    flex-basis: 100%;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.account-list {
+    list-style: none;
+    max-height: 400px;
+    overflow: auto;
+}
+/* ======필터====== */
+
+.filter-buttons{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.filter-buttons button{
+    padding: 8px 16px;
+    border: 2px solid #4163ca;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.filter-buttons button:hover,
+.filter-buttons button.active{
+    background-color: #4163ca;
+    color: white;
+    border-color: #4163ca;
+}
+
+.delete-btn{
+    background: red;
+    color: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.3s ease;
+}
+
+.delete-btn:hover{
+    background-color: #d44d4d;
+}
+
+.account-footer{
+    padding: 20px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    background: #c9cacc;
+}
+
+#account-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+.transaction-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid white;
+}
+
+.transaction-item .info{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.transaction-item .date{
+    font-size: 12px;
+    color: #808080;
+}
+
+.transaction-item .description{
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.transaction-item .details{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.transaction-item .amount {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.income-color{
+    color: green;
+}
+
+.expense-color{
+    color: red;
+}
+
+.empty-state{
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
+
+.account-item{
+    text-align: center;
+    font-size: 14px;
+    color: black;
+}
+.account-item strong,
+.account-item .income-color,
+.account-item .expense-color{
+    font-size: 20px;
+    font-weight: bold;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가계부</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>가계부</h1>
+            <h4>현재 잔액</h4>
+            <ul id="account-remain">100원</ul>
+        </header>
+
+        <div class="account-main">
+            <input id="account-detail" type="text" placeholder="내용을 입력하세요 (예: 점심값, 월급)">
+            <input type="number" id="account-money" placeholder="금액을 입력하세요">
+
+            <div class="account-inout">
+                <button id="money-inbtn">수입</button>
+                <button id="money-outbtn">지출</button>
+            </div>
+            <button id="account-addbtn">추가하기</button>
+        </div>
+
+        <div class="filter-buttons">
+            <button data-filter="all" class="active">전체</button>
+            <button data-filter="money-in">수입</button>
+            <button data-filter="money-out">지출</button>
+        </div>
+
+        <div class="account-footer">
+            <div id="account-container"></div>
+        </div>
+
+        <ul id="account-list" class="account-list"></ul>
+
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>
