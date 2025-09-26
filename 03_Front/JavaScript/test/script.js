@@ -26,15 +26,8 @@ function bindEvents(){
         }
     });
 
-    //incomeBtn.addEventListener('click', () => setTransactionType('income'));
-    incomeBtn.addEventListener('click', function(){
-        setTransactionType('income');
-    });
-
-    // expenseBtn.addEventListener('click', () => setTransactionType('expense'));
-    expenseBtn.addEventListener('click', function(){
-        setTransactionType('expense');
-    });
+    incomeBtn.addEventListener('click', () => setTransactionType('income'));
+    expenseBtn.addEventListener('click', () => setTransactionType('expense'));
 
     filterBtns.forEach(function(btn){
         btn.addEventListener('click', function(ev){
@@ -45,7 +38,7 @@ function bindEvents(){
 
 function addTransaction(){
     const description = descriptionInput.value.trim();
-    const amount = parseInt(amountInput.value);
+    const amount = parseInt(amountInput.value, 10);
 
     if(!description || !amount || amount <= 0) {
         alert('올바른 내용과 금액을 입력해주세요');
@@ -76,7 +69,7 @@ function deleteTransaction(id){
         }
         newTransactions.push(transaction);
     }
-    
+
     transactions = newTransactions;
     saveTransactions();
     render();
@@ -151,7 +144,6 @@ function transactionItemRender(transaction){
                         <span class="amount ${amountClass}">${sign}${transaction.amount.toLocaleString()}원</span>
                         <button class="delete-btn">삭제</button>
                       </div>`;
-                      
     const deleteBtn = item.querySelector('.delete-btn');
     deleteBtn.addEventListener('click', function(){
         deleteTransaction(transaction.id);
@@ -161,25 +153,16 @@ function transactionItemRender(transaction){
 }
 
 function updateAccount() {
-    //const totalIncome = transactions;
-    //.filter(function(t){return t.type === 'income'})
-    //.reduce(function(sum, t) {return sum + t.amount}, 0);
-    let totalIncome = 0;
-        for(let transaction of transactions){
-            if(transaction.type === 'income'){
-                totalIncome += transaction.amount;
-            }
-        }
-    //const totalExpense = transactions;
-    //.filter(t => t.type === 'expense')
-    //.reduce((sum, t) => sum + t.amount, 0);
-    let totalExpense = 0;
-        for(let transaction of transactions){
-            if(transaction.type === 'expense'){
-                totalExpense += transaction.amount;
-            }
-        }
+    const totalIncome = transactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + t.amount, 0);
+
+    const totalExpense = transactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + t.amount, 0);
+
     const balance = totalIncome - totalExpense;
+
     balanceDisplay.textContent = `${balance.toLocaleString()}원`;
 
     if (accountContainer) {
@@ -209,7 +192,7 @@ function setFilter(filter) {
 function setTransactionType(type){
     currentTransactionType = type;
     incomeBtn.classList.toggle('active', type === 'income');
-    expenseBtn.classList.toggle('active', type === 'expense'); //수정해야함
+    expenseBtn.classList.toggle('active', type === 'expense');
 }
 
 document.addEventListener('DOMContentLoaded', init);
