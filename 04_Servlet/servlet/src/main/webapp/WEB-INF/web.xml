@@ -11,6 +11,7 @@
 		<welcome-file>default.jsp</welcome-file>
 		<welcome-file>default.xhtml</welcome-file>
 	</welcome-file-list>
+<<<<<<< HEAD
 	<!--  
 	web.xml에 서블릿을 특정 경로로 맵핑하는 코드
 	<servlet>
@@ -22,4 +23,6 @@
 		<url-pattern>/RequestGetServlet</url-pattern>
 	</servlet-mapping>
 	-->
+=======
+>>>>>>> parent of ef46de1 (Revert "no message")
 </web-app>

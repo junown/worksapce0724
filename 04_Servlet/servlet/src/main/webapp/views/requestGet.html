@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Get방식 요청으로 응답한 페이지</h1>
+<<<<<<< HEAD
     <h5>HTTP요청 메서드 중 하나로 서버에서 정보를 가져올 때 사용되는 요청 방식이다.</h5>
     
     <p>
@@ -15,16 +16,34 @@
         => 보안유지가 어려움 <br>
         => 즉, 로그인이나 회원가입같은 private데이터가 포함된 요청에 경우 Get방식은 부적합 함. <br><br>
 
+=======
+    <h5>HTTP요청 메서드 중 하나로 서버에서 정보를 가져올 때 사용되는 요청 방식이다</h5>
+    
+    <p>
+        특징 1. 요청시 URL의 쿼리문자열(Query String)를 포함하여 데이터를 전송 <br>
+        => 사용자가 입력한 값(데이터)를 서버에 보낼 때 URL에 노출하여 전달함. <br>
+        => 보안유지가 어려움 <br>
+        => 즉, 로그인이나 회원가입같은 private데이터가 포함된 요청에 경우 Get방식은 부적합 함 <br><br>
+        
+>>>>>>> parent of ef46de1 (Revert "no message")
         특징 2. 데이터 길이 제한이 있음 <br>
         => URL에 함께 전달되는 방식이기 때문에 데이터의 길이제한이 있음, 하여 너무 긴 데이터는 절단되어 전달될 수 있음(평균 2000자정도) <br>
         => 즉, 게시판 작성같은 경우 Get방식이 부적합 함. <br><br>
 
         특징 3. 캐싱기능및 즐겨찾기사용 가능 <br>
+<<<<<<< HEAD
         url을 저장해둔 뒤 재 요청하는 방식 <br>
         => 검색기능에 적합
     </p>
 
     <a href="https://search.naver.com/search.naver?query=kh">네이버에서 KH정보교육원 검색</a>
+=======
+        url은 저장해둔 뒤 재 요청하는 방식 <br>
+        => 검색기능에 적합
+    </p>
+
+    <a href="https://www.google.com/search?q=kg%EC%A0%95%EB%B3%B4%EA%B5%90%EC%9C%A1%EC%9B%90&sca_esv=421eaf0524372ec9&source=hp&ei=AwjWaI6HEc_91e8Pqa2_yQ8&iflsig=AOw8s4IAAAAAaNYWExcjNNIVP0kgal9KkWNZQ7scevdm&ved=0ahUKEwjOlJDevfWPAxXPfvUHHanWL_kQ4dUDCBA&uact=5&oq=kg%EC%A0%95%EB%B3%B4%EA%B5%90%EC%9C%A1%EC%9B%90&gs_lp=Egdnd3Mtd2l6IhFrZ-ygleuztOq1kOycoeybkDIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDTIHEAAYgAQYDUjFLVAAWNYscAd4AJABAZgBxQGgAaAUqgEEMC4yMLgBA8gBAPgBAZgCE6ACnw2oAgDCAgsQABiABBixAxiDAcICBxAuGIAEGArCAgQQLhgDwgIREC4YgAQYsQMY0QMYgwEYxwHCAg4QLhiABBixAxiDARjUAsICBBAAGAPCAggQABiABBixA8ICBRAAGIAEwgIIEAAYogQYiQXCAggQABiABBiiBMICBRAAGO8FmAMB8QUX8JcNEugeI5IHBDYuMTOgB5l6sgcEMC4xM7gHjQ3CBwYxLjExLjfIBzM&sclient=gws-wiz">Google에서 KH정보교육원 검색</a>
+>>>>>>> parent of ef46de1 (Revert "no message")
     <form action="/servlet/gettest.do" method="get">
         <ul>
             <li>
@@ -36,10 +55,17 @@
             <li>
                 성별 : 
                 <label>
+<<<<<<< HEAD
                     <input type="radio" name="gender" value="M"> 남자
                 </label>
                 <label>
                     <input type="radio" name="gender" value="F"> 여자
+=======
+                    <input type="radio" name="gender" value="M">남자
+                </label>
+                <label>
+                    <input type="radio" name="gender" value="F">여자
+>>>>>>> parent of ef46de1 (Revert "no message")
                 </label>
             </li>
             <li>
@@ -56,18 +82,31 @@
                 키 : <input type="range" name="height" min="140" max="200">
             </li>
             <li>
+<<<<<<< HEAD
                 좋아하는 음식 : 
                 <input type="checkbox" name="food" value="한식"> 한식
                 <input type="checkbox" name="food" value="중식"> 중식
                 <input type="checkbox" name="food" value="일식"> 일식
                 <input type="checkbox" name="food" value="양식"> 양식
                 <input type="checkbox" name="food" value="분식"> 분식
+=======
+                좋아하는 음식 :
+                <input type="checkbox" name="food" value="한식">한식
+                <input type="checkbox" name="food" value="중식">중식
+                <input type="checkbox" name="food" value="일식">일식
+                <input type="checkbox" name="food" value="양식">양식
+                <input type="checkbox" name="food" value="분식">분식
+>>>>>>> parent of ef46de1 (Revert "no message")
             </li>
             <li>
                 <input type="submit">
                 <input type="reset">
             </li>
+<<<<<<< HEAD
         </ul>        
+=======
+        </ul>
+>>>>>>> parent of ef46de1 (Revert "no message")
     </form>
 </body>
 </html>

@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<<<<<<< HEAD
 	<%
 		//스크립틀릿(scriptlet) -> html문서내에서 자바코드를 사용하고 싶을 때 쓸수 있는 영역
 		String name = (String)request.getAttribute("name");
@@ -21,5 +22,21 @@
 	<span><%=name %>님은 </span>
 	<span><%=age %>살이며, </span>
 	<span><%=city %>에 살고 있습니다.</span>
+=======
+    <%
+    	//스크립틀릿(scriptlet) -> html문서내에서 자바코드를 사용하고 싶을 때 쓸수 있는 영역
+    	String name = (String)request.getAttribute("name");
+    	int age = (int)request.getAttribute("age");
+		String gender = (String)request.getAttribute("gender");
+		String city = (String)request.getAttribute("city");
+		Double height = (Double)request.getAttribute("height");
+		String[] foods = (String[])request.getAttribute("food");
+    %>
+    
+    <h3>개인정보 응답화면</h3>
+    <span><%=name %>님은</span>
+    <span><%=age %>살이며</span>
+    <span><%=city %>에 살고 있습니다</span>
+>>>>>>> parent of ef46de1 (Revert "no message")
 </body>
 </html>
