@@ -43,7 +43,7 @@ public class ELOperationServlet extends HttpServlet {
 		ArrayList<String> list1 = new ArrayList<>(); //빈리스트
 		request.setAttribute("arrOne", list1);
 		
-		ArrayList<String> list2 = new ArrayList<>(); //빈리스트
+		ArrayList<String> list2 = new ArrayList<>();
 		list2.add("점심 뭐먹을까요?");
 		request.setAttribute("arrTwo", list2);
 		
