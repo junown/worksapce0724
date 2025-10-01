@@ -61,7 +61,7 @@
     test값 : ${test}
     
     <h4>직접 scope를 지정해서 접근도 가능</h4>
-    <% 	//page copre에 값을 저장할 때
+    <% 	//page scope에 값을 저장할 때
     	pageContext.setAttribute("scope", "page"); 
     %>
     
