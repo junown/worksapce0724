@@ -10,16 +10,16 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Servlet implementation class LogoutController
+ * Servlet implementation class MyPageController
  */
-@WebServlet("/logout.me")
-public class LogoutController extends HttpServlet {
+@WebServlet("/myPage.me")
+public class MyPageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutController() {
+    public MyPageController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,13 +28,14 @@ public class LogoutController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//로그아웃 -> session에서 loginMember삭제, session만료
 		HttpSession session = request.getSession();
 		
-		//session.invalidate(); 세션만료 -> session에 저장된 모든 데이터가 사라지고 새로운 세션아이디가 부여됨
-		session.removeAttribute("loginMember");
-		
-		response.sendRedirect(request.getContextPath()); //jsp
+		if(session.getAttribute("loginMember") == null) {
+			session.setAttribute("alertMsg", "잘못된 접근입니다.");
+			response.sendRedirect(request.getContextPath());
+		} else {
+			request.getRequestDispatcher("views/member/myPage.jsp").forward(request, response);
+		}
 	}
 
 	/**
