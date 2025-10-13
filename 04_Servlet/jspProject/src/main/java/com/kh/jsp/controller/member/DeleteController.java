@@ -3,6 +3,7 @@ package com.kh.jsp.controller.member;
 import java.io.IOException;
 
 import com.kh.jsp.model.vo.Member;
+import com.kh.jsp.service.BoardService;
 import com.kh.jsp.service.MemberService;
 
 import jakarta.servlet.ServletException;
@@ -53,7 +54,6 @@ public class DeleteController extends HttpServlet {
 			
 			response.sendRedirect(request.getContextPath());
 		}
-	
 	}
 
 	/**

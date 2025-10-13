@@ -3,7 +3,7 @@ package com.kh.jsp.controller.board;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.kh.jsp.model.vo.Board;
+import com.kh.jsp.model.vo.Category;
 import com.kh.jsp.service.BoardService;
 
 import jakarta.servlet.ServletException;
@@ -13,16 +13,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ListController
+ * Servlet implementation class enrollFormController
  */
-@WebServlet("/list.bo")
-public class ListController extends HttpServlet {
+@WebServlet("/enrollForm.bo")
+public class enrollFormController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListController() {
+    public enrollFormController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +31,11 @@ public class ListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//board목록을 가져와서 응답페이지로 전달
+		ArrayList<Category> categories = new BoardService().selectAllCategory();
 		
-		ArrayList<Board> list = new BoardService().selectAllBoard();
+		request.setAttribute("categories", categories);
 		
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("views/board/listView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/board/enrollForm.jsp").forward(request, response);
 	}
 
 	/**

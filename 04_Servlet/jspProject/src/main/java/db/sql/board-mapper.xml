@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="selectAllBoard">
+		SELECT BOARD_NO,
+				CATEGORY_NAME,
+				BOARD_TITLE,
+				MEMBER_ID,
+				COUNT,
+				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		FROM BOARD B
+		JOIN CATEGORY USING(CATEGORY_NO)
+		JOIN MEMBER M ON(BOARD_WRITER = MEMBER_NO)
+		WHERE B.STATUS = 'Y'
+		AND BOARD_TYPE = 1
+		ORDER BY BOARD_NO DESC
+	</entry>
+	<entry key="increaseCount">
+		UPDATE BOARD
+		   SET COUNT = COUNT + 1
+		 WHERE BOARD_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
+	<entry key="selectBoardByBoardNo">
+		SELECT BOARD_NO,
+				CATEGORY_NAME,
+				CATEGORY_NO,
+				BOARD_TITLE,
+				BOARD_CONTENT,
+				MEMBER_ID,
+				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		FROM BOARD B
+		JOIN CATEGORY USING(CATEGORY_NO)
+		JOIN MEMBER M ON(BOARD_WRITER = MEMBER_NO)
+		WHERE B.STATUS = 'Y'
+		AND BOARD_NO = ?
+	</entry>
+	<entry key="selectAllCategory">
+		SELECT CATEGORY_NO,
+				CATEGORY_NAME
+		FROM CATEGORY
+	</entry>	
+	<entry key="updateBoard">
+		UPDATE BOARD
+		   SET CATEGORY_NO = ?,
+				BOARD_TITLE = ?,
+				BOARD_CONTENT = ?
+		 WHERE BOARD_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
+	<entry key="deleteBoard">
+		UPDATE BOARD
+		SET STATUS = 'N'
+		WHERE BOARD_NO = ?
+	</entry>
+</properties>

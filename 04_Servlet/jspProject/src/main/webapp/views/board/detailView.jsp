@@ -121,7 +121,7 @@
 		}
 	</style>
 </head>
-<body onload="init(${board.boardNo})">
+<body>
 	<jsp:include page="/views/common/menubar.jsp" />
 
 	<div class="board-container">
@@ -131,21 +131,21 @@
 			<table class="detail-table">
 				<tr>
 					<th>카테고리</th>
-					<td></td>
+					<td>${board.categoryName}</td>
 					<th>제목</th>
-					<td colspan="3"></td>
+					<td colspan="3">${board.boardTitle}</td>
 				</tr>
 				<tr>
 					<th>작성자</th>
-					<td></td>
+					<td>${board.memberId}</td>
 					<th>작성일</th>
-					<td></td>
+					<td>${board.createDate}</td>
 				</tr>
 				<tr>
 					<th>내용</th>
 					<td colspan="3">
 						<div class="content-area">
-							
+							${board.boardContent}
 						</div>
 					</td>
 				</tr>
@@ -159,8 +159,10 @@
 
 			<div class="button-group">
 				<a class="btn btn-primary">목록가기</a>
-				<a class="btn btn-warning">수정하기</a>
-				<a class="btn btn-danger">삭제하기</a>
+				<c:if test="${loginMember != null && loginMember.memberId == board.memberId}">
+					<a class="btn btn-warning" href="${pageContext.request.contextPath}/updateForm.bo?bno=${board.boardNo}">수정하기</a>
+					<a class="btn btn-danger" href="${pageContext.request.contextPath}/deleteForm.bo?bno=${board.boardNo}">삭제하기</a>
+				</c:if>
 			</div>
 		</div>
 

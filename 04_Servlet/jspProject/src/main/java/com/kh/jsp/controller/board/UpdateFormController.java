@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.kh.jsp.model.vo.Board;
+import com.kh.jsp.model.vo.Category;
 import com.kh.jsp.service.BoardService;
 
 import jakarta.servlet.ServletException;
@@ -13,16 +14,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ListController
+ * Servlet implementation class UpdateController
  */
-@WebServlet("/list.bo")
-public class ListController extends HttpServlet {
+@WebServlet(name = "updateForm.bo", urlPatterns = { "/updateForm.bo" })
+public class UpdateFormController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListController() {
+    public UpdateFormController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +32,17 @@ public class ListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//board목록을 가져와서 응답페이지로 전달
+		int boardNo = Integer.parseInt(request.getParameter("bno"));
 		
-		ArrayList<Board> list = new BoardService().selectAllBoard();
+		BoardService boardService = new BoardService();
 		
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("views/board/listView.jsp").forward(request, response);
+		ArrayList<Category> categories = boardService.selectAllCategory();
+		Board b = boardService.selectBoardByBoardNo(boardNo);
+		
+		request.setAttribute("categories", categories);
+		request.setAttribute("board", b);
+		
+		request.getRequestDispatcher("views/board/updateForm.jsp").forward(request, response);
 	}
 
 	/**

@@ -88,9 +88,11 @@
         <div class="board-card">
             <h2>일반게시판</h2>
 
-            <div class="write-btn-area">
-                <a class="btn btn-primary" href="${pageContext.request.contextPath}/enrollForm.bo">글쓰기</a>
-            </div>
+			<c:if test="${not empty loginMember}">
+	            <div class="write-btn-area">
+	                <a class="btn btn-primary" href="${pageContext.request.contextPath}/enrollForm.bo">글쓰기</a>
+	            </div>
+            </c:if>
 
             <table class="board-table">
                 <thead>
@@ -104,22 +106,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>운동</td>
-                        <td>안녕하세요.</td>
-                        <td>user01</td>
-                        <td>123</td>
-                        <td>2025-03-12</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>기타</td>
-                        <td>문의 남깁니다.</td>
-                        <td>user02</td>
-                        <td>13</td>
-                        <td>2025-01-08</td>
-                    </tr>
+                 	<c:forEach var="b" items="${list}">
+	                 	 <tr onclick="location.href='${pageContext.request.contextPath}/detail.bo?bno=${b.boardNo}'">
+	                        <td>${b.boardNo}</td>
+	                        <td>${b.categoryName}</td>
+	                        <td>${b.boardTitle}</td>
+	                        <td>${b.memberId}</td>
+	                        <td>${b.count}</td>
+	                        <td>${b.createDate}</td>
+                    	</tr>
+                 	</c:forEach>
                 </tbody>
             </table>
 
