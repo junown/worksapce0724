@@ -152,7 +152,17 @@
 				<tr>
 					<th>첨부파일</th>
 					<td colspan="3">
-						첨부파일이 없습니다.
+						<c:choose>
+							<c:when test="${empty at}">
+								첨부파일이 없습니다.
+							</c:when>
+							<c:otherwise>
+								<a download="${at.originName}"
+									href="${pageContext.request.contextPath}/${at.filePath}${at.changeName}">
+									${at.originName}
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</table>
@@ -161,7 +171,7 @@
 				<a class="btn btn-primary">목록가기</a>
 				<c:if test="${loginMember != null && loginMember.memberId == board.memberId}">
 					<a class="btn btn-warning" href="${pageContext.request.contextPath}/updateForm.bo?bno=${board.boardNo}">수정하기</a>
-					<a class="btn btn-danger" href="${pageContext.request.contextPath}/deleteForm.bo?bno=${board.boardNo}">삭제하기</a>
+					<a class="btn btn-danger" href="${pageContext.request.contextPath}/delete.bo?bno=${board.boardNo}">삭제하기</a>
 				</c:if>
 			</div>
 		</div>

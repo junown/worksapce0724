@@ -8,16 +8,27 @@ import static com.kh.jsp.common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.kh.jsp.common.vo.PageInfo;
 import com.kh.jsp.model.dao.BoardDao;
+import com.kh.jsp.model.vo.Attachment;
 import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.model.vo.Category;
 
 public class BoardService {
 	
-	public ArrayList<Board> selectAllBoard(){
+	public int selectAllBoardCount(){
 		Connection conn = getConnection();
 		
-		ArrayList<Board> list = new BoardDao().selectAllBoard(conn);
+		int listCount = new BoardDao().selectAllBoardCount(conn);
+		close(conn);
+		
+		return listCount;
+	}
+	
+	public ArrayList<Board> selectAllBoard(PageInfo pi){
+		Connection conn = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllBoard(conn, pi);
 		close(conn);
 		
 		return list;
@@ -46,6 +57,15 @@ public class BoardService {
 		return board;
 	}
 	
+	public Attachment selectAttachment(int boardNo) {
+		Connection conn = getConnection();
+		
+		Attachment at = new BoardDao().selectAttachment(conn, boardNo);
+		
+		close(conn);
+		return at;
+	}
+	
 	public ArrayList<Category> selectAllCategory() {
 		Connection conn = getConnection();
 		
@@ -55,15 +75,42 @@ public class BoardService {
 		return categroyList;
 	}
 	
-	public int updateBoard(int boardNo,int categoryNo,String boardTitle,String boardContent) {
+	public int updateBoard(Board b, Attachment at) {
 		Connection conn = getConnection();
-		Board b = new Board();
-		b.setBoardNo(boardNo);
-		b.setCategoryNo(categoryNo);
-		b.setBoardTitle(boardTitle);
-		b.setBoardContent(boardContent);
 		
-		int result = new BoardDao().updateBoard(conn, b);
+		BoardDao bDao = new BoardDao();
+		
+		int result1 = bDao.updateBoard(conn, b);
+		
+		int result2 = 1;
+		if(at != null) {
+			if(at.getFileNo() != 0) {
+				result2 = bDao.updateAttachment(conn, at);
+			}else {
+				result2 = bDao.insertAttachment(conn, at);
+			}
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result1 * result2;
+	}
+	
+	public int insertBoard(Board b, Attachment at) {
+		Connection conn = getConnection();
+		
+		BoardDao bDao = new BoardDao();
+		
+		int result = bDao.insertBoard(conn, b);
+		
+		if(at != null) {
+			result *= bDao.insertAttachment(conn, at);
+		}
 		
 		if(result > 0) {
 			commit(conn);
@@ -74,7 +121,7 @@ public class BoardService {
 		close(conn);
 		return result;
 	}
-	
+
 	public int deleteBoard(int boardNo) {
 		Connection conn = getConnection();
 		
@@ -89,5 +136,4 @@ public class BoardService {
 		close(conn);
 		return result;
 	}
-
 }

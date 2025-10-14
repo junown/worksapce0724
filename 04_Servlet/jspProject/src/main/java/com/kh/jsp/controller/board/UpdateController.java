@@ -1,7 +1,16 @@
 package com.kh.jsp.controller.board;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
 
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+
+import com.kh.jsp.model.vo.Attachment;
+import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.service.BoardService;
 
 import jakarta.servlet.ServletException;
@@ -9,6 +18,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UpdateController
@@ -31,19 +41,89 @@ public class UpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//board정보를 받아 -> update -> 결과에따른 페이지 응답
 		
-		int boardNo = Integer.parseInt(request.getParameter("bno"));
-		int categoryNo = Integer.parseInt(request.getParameter("category"));
-		String boardTitle = request.getParameter("title");
-		String boardContent = request.getParameter("content");
+		System.out.println(JakartaServletFileUpload.isMultipartContent(request));
+
+		if(JakartaServletFileUpload.isMultipartContent(request)) {
+			HttpSession session = request.getSession();
+			
+			//1. 파일용량제한(byte)
+			int fileMaxSize = 1024 * 1024 * 50; //50MB
+			
+			//2. 전달된 파일을 저장시킬 폴더 경로 가져오기
+			String savePath = request.getServletContext().getRealPath("/resources/board-file/");
+			
+			//3. DiskFileItemFactory(파일을 임시로 저장) 객체 생성
+			DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+			
+			//4. JakartaServletFileUpload : http요청으로 전달된 파일데이터를 파싱 -> 개별 FileItem 객체로 변환
+			JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
+			
+			upload.setFileSizeMax(fileMaxSize);
+			
+			List<FileItem> formItems = upload.parseRequest(request);
+			
+			Board b = new Board();
+			Attachment at = null;
+			
+			String originFileName = null;
+			int originFileNo = 0;
+			
+			for(FileItem item : formItems) {
+				System.out.println(item);
+				if(item.isFormField()) {
+					switch(item.getFieldName()) {
+					case "bno":
+						b.setBoardNo(Integer.parseInt(item.getString(Charset.forName("UTF-8"))));
+						break;
+					case "category":
+						b.setCategoryNo(Integer.parseInt(item.getString(Charset.forName("UTF-8"))));
+						break;
+					case "title":
+						b.setBoardTitle(item.getString(Charset.forName("UTF-8")));
+						break;
+					case "content":
+						b.setBoardContent(item.getString(Charset.forName("UTF-8")));
+						break;
+					case "originFileName":
+						originFileName = item.getString(Charset.forName("UTF-8"));
+						break;
+					case "originFileNo":
+						originFileNo = Integer.parseInt(item.getString(Charset.forName("UTF-8")));
+						break;
+				}
+			} else {
+				String originName = item.getName();
+				
+				if(originName.length() > 0) {
+					String tmpName = "kh_" + System.currentTimeMillis() + ( (int)(Math.random() * 100000) + 1);
+					String type = originName.substring(originName.lastIndexOf("."));
+					String changeName = tmpName + type;
+					
+					File f = new File(savePath, changeName);
+					item.write(f.toPath());
+					
+					at = new Attachment();
+					at.setOriginName(originName);
+					at.setChangeName(changeName);
+					at.setFilePath("resources/board-file/");
+					at.setRefBoardNo(b.getBoardNo());
+					at.setFileNo(originFileNo);
+				}
+			}
+		}
+		int result = new BoardService().updateBoard(b, at);
 		
-		int result = new BoardService().updateBoard(boardNo, categoryNo, boardTitle, boardContent);
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "게시글 수정 성공");
-			response.sendRedirect(request.getContextPath() + "/detail.bo?bno=" + boardNo);
+			response.sendRedirect(request.getContextPath() + "/detail.bo?bno=" + b.getBoardNo());
 		} else {
+			if(at != null){
+				new File(savePath + at.getChangeName()).delete();
+			}
 			request.setAttribute("errorMsg", "게시글 수정 실패");
 			request.getRequestDispatcher("views/common/error.jsp").forward(request, response);
 		}
+	}
 	}
 
 	/**

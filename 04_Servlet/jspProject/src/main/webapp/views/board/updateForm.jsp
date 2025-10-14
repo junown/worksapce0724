@@ -88,7 +88,7 @@
 		<div class="board-card">
 			<h2>일반게시글 수정하기</h2>
 
-			<form action="${pageContext.request.contextPath}/update.bo" method="post" >
+			<form action="${pageContext.request.contextPath}/update.bo" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="bno" value="${board.boardNo}">
 				<table class="form-table">
 					<tr>
@@ -123,6 +123,11 @@
 					<tr>
 						<th>첨부파일</th>
 						<td>
+							<c:if test="${at != null}">
+								기존파일 : ${at.originName} <br><br>
+								<input type="hidden" name="originFileNo" value="${at.fileNo}">
+								<input type="hidden" name="originFileName" value="${at.changeName}">
+							</c:if>
 							<input type="file" name="upfile">
 						</td>
 					</tr>
