@@ -48,6 +48,7 @@ public class UpdateController extends HttpServlet {
 			
 			//1. 파일용량제한(byte)
 			int fileMaxSize = 1024 * 1024 * 50; //50MB
+			int requestMaxSize = 1024 * 1024 * 60; //전체요청 크기 제한
 			
 			//2. 전달된 파일을 저장시킬 폴더 경로 가져오기
 			String savePath = request.getServletContext().getRealPath("/resources/board-file/");
@@ -59,6 +60,7 @@ public class UpdateController extends HttpServlet {
 			JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
 			
 			upload.setFileSizeMax(fileMaxSize);
+			upload.setSizeMax(requestMaxSize);
 			
 			List<FileItem> formItems = upload.parseRequest(request);
 			
@@ -69,8 +71,7 @@ public class UpdateController extends HttpServlet {
 			int originFileNo = 0;
 			
 			for(FileItem item : formItems) {
-				System.out.println(item);
-				if(item.isFormField()) {
+				if(item.isFormField()) { //일반파라미터
 					switch(item.getFieldName()) {
 					case "bno":
 						b.setBoardNo(Integer.parseInt(item.getString(Charset.forName("UTF-8"))));
@@ -91,7 +92,7 @@ public class UpdateController extends HttpServlet {
 						originFileNo = Integer.parseInt(item.getString(Charset.forName("UTF-8")));
 						break;
 				}
-			} else {
+			} else { 
 				String originName = item.getName();
 				
 				if(originName.length() > 0) {

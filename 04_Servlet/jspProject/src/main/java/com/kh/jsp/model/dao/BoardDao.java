@@ -16,6 +16,7 @@ import com.kh.jsp.common.vo.PageInfo;
 import com.kh.jsp.model.vo.Attachment;
 import com.kh.jsp.model.vo.Board;
 import com.kh.jsp.model.vo.Category;
+import com.kh.jsp.model.vo.Reply;
 
 public class BoardDao {
 private Properties prop = new Properties();
@@ -133,6 +134,39 @@ private Properties prop = new Properties();
 		}
 		
 		return b;
+	}
+	
+	public ArrayList<Reply> selectReplyByBoardNo(Connection conn, int boardNo){
+		//select -> ResultSet(한개) -> Board
+		ArrayList<Reply> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectReplyByBoardNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Reply r = new Reply();
+				r.setReplyNo(rset.getInt("REPLY_NO"));
+				r.setReplyContent(rset.getString("REPLY_CONTENT"));
+				r.setMemberId(rset.getString("MEMBER_ID"));
+				r.setCreateDate(rset.getString("CREATE_DATE"));
+				
+				list.add(r);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 	
 	public int selectAllBoardCount(Connection conn) {
@@ -304,12 +338,39 @@ private Properties prop = new Properties();
 		return result;
 	}
 	
+	public int insertReply(Connection conn, Reply r) {
+		//새로운 Reply -> insert -> int(1 또는 0)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertReply");		
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1,r.getReplyContent());
+			pstmt.setInt(2, r.getRefBoardNo());
+			pstmt.setInt(3, r.getReplyWriter());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
 	public int insertAttachment(Connection conn, Attachment at) {
 		//새로운 Attachment -> insert -> int(1 또는 0)
 		
 		int result = 0;
 		
 		PreparedStatement pstmt = null;
+
 		
 		String sql = prop.getProperty("insertAttachment");		
 		
@@ -319,6 +380,34 @@ private Properties prop = new Properties();
 			pstmt.setString(1, at.getOriginName());
 			pstmt.setString(2, at.getChangeName());
 			pstmt.setString(3, at.getFilePath());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int insertNewAttachment(Connection conn, Attachment at) {
+		//새로운 Attachment -> insert -> int(1 또는 0)
+		
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+
+		
+		String sql = prop.getProperty("insertNewAttachment");		
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, at.getRefBoardNo());
+			pstmt.setString(2, at.getOriginName());
+			pstmt.setString(3, at.getChangeName());
+			pstmt.setString(4, at.getFilePath());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -341,6 +430,27 @@ private Properties prop = new Properties();
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, boardNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public int deleteReply(Connection conn, int replyNo) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("deleteReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, replyNo);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
