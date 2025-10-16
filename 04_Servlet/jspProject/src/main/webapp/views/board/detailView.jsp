@@ -270,7 +270,7 @@
 				replyNo : replyNo, 
 			 },
 			 success: function(res){
-				 callback();
+					 callback(); 
 			 },
 			 error: function(err){
 				console.log("댓글 삭제 ajax 실패");
@@ -290,6 +290,7 @@
 			 },
 			 success: function(res){
 				 if(res === "1") {
+					 contentInput.value = "";
 				 	getReplyList(bno, drawReplyList);
 				 }
 			 },
