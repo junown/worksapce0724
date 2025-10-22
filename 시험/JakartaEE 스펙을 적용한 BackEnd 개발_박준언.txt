@@ -1,0 +1,146 @@
+1. Member 조회 DB연결 코드입니다. 아래 코드를 확인한 후 코드의 문제가 있는지 확인하고, 더 나은 방식으로 구현하는 방법이 있다면 설명해 주세요.
+
+public class MemberDAO {
+
+public Member selectMember(String userId, String userPwd) {
+
+Member m = null;
+
+try {
+
+Class.forName("oracle.jdbc.driver.OracleDriver");
+
+Connection conn = DriverManager.getConnection(
+
+"jdbc:oracle:thin:@localhost:1521:xe", "KH", "KH1234"
+
+);
+
+Statement stmt = conn.createStatement();
+
+String query = "SELECT * FROM MEMBER WHERE USER_ID = '" + userId +
+
+"' AND USER_PWD = '" + userPwd + "'";
+
+ResultSet rs = stmt.executeQuery(query);
+
+if (rs.next()) {
+
+m = new Member(rs.getString("USER_ID"), rs.getString("USER_NAME"));
+
+}
+
+} catch (Exception e) {
+
+e.printStackTrace();
+
+}
+
+return m;
+
+}
+
+}
+
+문제점 1. 현재 Statement stmt = conn.createStatement();에서 Statement를 사용하여 sql문을 처리하고있는데 이건 보안에
+	문제가 갈수있다. 우선 저대로 실행시 DB로 해당 쿼리를 보내는데 문제는 문자열을 합쳤기 때문에 하나의 명령어로
+	인식한다 그래서 WHERE USER_ID = ' '가 FALSE를 반환해도 문자열로 합치기때문에 사용자가 악의로 ID와 PWD에
+	OR 1=1이나 OR 2=2등등 넣으면 TRUE를 반환하기때문에 비밀번호 없이 로그인이 가능하다
+해결법 :   PreparedStatement을 사용하면 DB는 ?을 순수 데이터로 취급을 하기때문에 위에서 처럼 문자열을 합쳐 명령어로
+	구분하지않는다. 따라서 PreparedStatement를 사용한
+	SELECT * FROM MEMBER WHERE USER_ID = ? AND USER_PWD = ?을 사용한다
+
+문제점 2. DB자원들(Connection, Statement, ResultSet)이 누수가 되고있다. 만약 close을 안해주면 계속 DB연결이 쌓이게 되고
+	결국 사용자가 몰리게 되면 DB커넥션이 고갈이 되어 서버와 DB가 다운이 될것이다
+해결법 :   catch 후 finally 블록에서 rs.close(), stmt.close(), conn.close()을 호출하여 누수를 막는다
+
+문제점 3. catch (Exception e)에서 Exceoption은 다른 DB 오류나 파일오류나 모든 오류를 다 catch하기때문에 SqlExceoption을
+	사용해서 Sql에 관한 오류만 catch할수있게 만들어야한다.
+해결법 :  SqlException을 사용해 DB관련 오류만 골라내기
+
+최종 코드 :
+		public class MemberDAO {
+		public Member selectMember(String userId, String userPwd) {
+		Member m = null;
+		String query = "SELECT * FROM MEMBER WHERE USER_ID = ? AND USER_PWD = ?";
+		ResultSet rs = null;
+		try {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection conn = DriverManager.getConnection(
+		"jdbc:oracle:thin:@localhost:1521:xe", "KH", "KH1234"
+		);
+
+		PreparedStatement pstmt = conn.prepareStatement(query);
+
+		pstmt.setString(1, userId);
+		pstmt.setString(2, userPwd);
+
+		if (rs.next()) {
+			m = new Member();
+					m.setMemberId(rs.getString("USER_ID"));
+					m.setMemberName(rs.getString("USER_NAME"));
+		}
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}finally {
+			close(conn);
+			close(pstmt);
+			close(rs);
+		}
+		return m;
+		}
+	}
+
+2. MyBatis연동및 매퍼활용코드입니다. 이 코드가 컴파일은 되지만 실행 시 오류가 발생하는 이유는 무엇인지를 Mybatis의 전체 동작흐름에 포함하여 설명하고,
+더 나은 방식으로 구현하는 방법이 있다면 설명해 주세요.
+
+java에서의 호출 :
+
+sqlSession.selectOne("MemberMapper.loginMember", userId, userPwd);
+
+xml에서의 기술 :
+
+<select id="loginMember" resultType="Member">
+
+SELECT *
+
+FROM MEMBER
+
+WHERE MEMBER_ID = #{userId}
+
+AND MEMBER_PWD = #{userPwd}
+
+</select>
+
+문제점 : java에서 호출할때 selectOne으로 호출하지만 현재 파라미터가 2개이기 때문에 오류가 생긴다
+해결법 : 두개이상의 파라미터를 보낼땐 Map으로 하나로 묶어서 전달해야한다. 그래야 sqlsession에서 둘다 인식이 가능하다
+
+
+
+3. 이 컨트롤러의 문제점은 무엇인지 설명하고,
+
+일반적으로 스프링 MVC에서는 어떤 방식으로 응답을 처리해야 하는지를 스프링의 전체 동작방식에 포함하여 설명해주세요.
+
+@Controller
+
+public class MemberController {
+
+@RequestMapping("/login")
+
+public void login(String userId, String userPwd) {
+
+Member m = memberService.loginMember(userId, userPwd);
+
+System.out.println(m.getUserName());
+}
+}
+
+문제점 1 : 메소드의 반환 타입이 void라 요청 URL 이름과 동일한 뷰를 찾으려고 시도하지만 현재 코드상 로그인을 처리하는
+	 코드이기 때문에 뷰를 보여줄 의도가 아니다. 만약 login.jsp가 없다면 404 오류나 있더라도 로그인 폼만 보여주게
+	 될것이다
+해결법 :   String으로 변환후 로그인 처리를 한뒤 return 하여 만약 성공시 다른 페이지를 보여주고 아니면 다시 로그인 폼으로
+	 돌아와 error메시지를 전달한다
+
+문제점 2 : Member m에서 만약 memberService.loginMember(userId, userPwd);가 null이라면,
+	 System.out.println(m.getUserName());에서 NullPointerException가 발생하며 500에러를 띄울것이다 
+해결법 :   memberService.loginMember(userId, userPwd);이 null인지 아닌지 확인하는 과정이 필요하다

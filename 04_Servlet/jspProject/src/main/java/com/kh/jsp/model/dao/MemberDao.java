@@ -97,6 +97,38 @@ public class MemberDao {
 		return m;
 	}
 	
+	public class MemberDAO {
+		public Member selectMember(String userId, String userPwd) {
+		Member m = null;
+		String query = "SELECT * FROM MEMBER WHERE USER_ID = ? AND USER_PWD = ?";
+		ResultSet rs = null;
+		try {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection conn = DriverManager.getConnection(
+		"jdbc:oracle:thin:@localhost:1521:xe", "KH", "KH1234"
+		);
+
+		PreparedStatement pstmt = conn.prepareStatement(query);
+
+		pstmt.setString(1, userId);
+		pstmt.setString(2, userPwd);
+
+		if (rs.next()) {
+			m = new Member();
+					m.setMemberId(rs.getString("USER_ID"));
+					m.setMemberName(rs.getString("USER_NAME"));
+		}
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}finally {
+			close(conn);
+			close(pstmt);
+			close(rs);
+		}
+		return m;
+		}
+	}
+	
 	public int updateMember(Member m, Connection conn) {
 		//update -> 처리된 행 수
 		
