@@ -213,15 +213,15 @@ public class MemberController {
             return "common/error";
         }
     }
+
     @GetMapping("/myPage.me")
     public String myPage() {
         return "member/myPage";
     }
 
-    @GetMapping("logout.me")
+    @GetMapping("/logout.me")
     public String logout(HttpSession httpSession) {
         httpSession.removeAttribute("loginMember");
         return "redirect:/";
     }
-
 }

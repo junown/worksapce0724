@@ -63,4 +63,10 @@
             #{interest}
         )
     </insert>
+    <insert id="deleteMember" parameterType="string">
+        UPDATE MEMBER
+        SET STATUS = 'N',
+        MODIFY_DATE = SYSDATE
+        WHERE MEMBER_ID = #{memberId}
+    </insert>
 </mapper>
