@@ -101,7 +101,7 @@ const JavaScript = () => {
         <ul>
             <li>{getImg()}</li>
             <li>{getImg()}</li>
-            <li>{getImg()}</li>
+            <li>{getImg()}</li> 
         </ul>
     </>
   )
