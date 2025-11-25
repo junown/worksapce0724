@@ -1,15 +1,24 @@
 import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
-import JavaScript from './components/JavaScript'
-import Style from './components/Style'
+import LifecycleTest from './components/LifecycleTest'
+import CommentBox from './components/CommentBox'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [isView, setIsView] = useState(false);
+  // const toggleButton = () => {
+  //   setIsView(!isView);
+  // }
 
   return (
     <>
-      {/* <JavaScript/> */}
-      <Style />
+      {/* {isView && <LifecycleTest />}
+      <button onClick={toggleButton}>
+        {isView ? "숨기기" : "보이기"}
+      </button> */}
+
+        <CommentBox />
     </>
   )
 }
