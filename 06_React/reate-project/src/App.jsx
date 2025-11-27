@@ -19,7 +19,13 @@ function App() {
       {/* <UseRefTest /> */}
       {/* <UseRefScroll /> */}
       {/* <UseMemoTest /> */}
-      <UseCallbackTest />
+      {/* <UseCallbackTest /> */}
+      {/* <UseContextTest /> */}
+      {/* <MyInfo /> */}
+      {/* <ToggleBox /> */}
+      <UserProvider>
+        <Header />
+      </UserProvider>
     </>
   )
 }
