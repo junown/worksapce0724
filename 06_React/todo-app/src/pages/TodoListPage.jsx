@@ -105,7 +105,6 @@ const DeleteBtn = styled.button`
   font-size: 12px;
 `;
 
-/* --- Component Logic --- */
 const TodoListPage = () => {
   const { todos, addTodo, deleteTodo, toggleTodo } = useContext(TodoContext);
   const navigate = useNavigate();

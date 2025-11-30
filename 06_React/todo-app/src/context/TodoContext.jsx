@@ -5,6 +5,7 @@ export const TodoContext = createContext();
 export const TodoProvider = ({children}) => {
   const [todos, setTodos] = useState(() => {
     const savedTodos = localStorage.getItem('todos');
+    const today = new Date().toISOString();
     return savedTodos ? JSON.parse(savedTodos) : [
         { id: 1, text: '리액트 공부하기', category: 'study', completed: false, createdAt: today },
         { id: 2, text: '여행가기', category: 'personal', completed: true, createdAt: today },
@@ -12,7 +13,7 @@ export const TodoProvider = ({children}) => {
         { id: 4, text: '파이널 프로젝트', category: 'work', completed: false, createdAt: today },
     ];
   });
-    
+
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos));
     }, [todos]);
