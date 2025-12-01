@@ -3,17 +3,6 @@ import TodoContext from '../context/TodoContext'
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const {todos} = useContext(TodoContext);
-  const navigate = useNavigate();
-
-  const totalCount = todos.length;
-  const completedCount = todos.filter(todo => todo.completed).length;
-  const activeCount = totalCount - completedCount;
-
-  const workCount = todos.filter(todo => todo.category === 'work').length;
-  const personalCount = todos.filter(todo => todo.category === 'personal').length;
-  const studyCount = todos.filter(todo => todo.category === 'study').length;
-  
   const cardStyle = {
     border: '1px solid #ddd',
     padding: '20px',
@@ -24,6 +13,17 @@ const Home = () => {
     color: '#333',
     backgroundColor: '#f9f9f9'
   };
+  
+  const {todos} = useContext(TodoContext);
+  const navigate = useNavigate();
+
+  const totalCount = todos.length;
+  const completedCount = todos.filter(todo => todo.completed).length;
+  const activeCount = totalCount - completedCount;
+
+  const workCount = todos.filter(todo => todo.category === 'work').length;
+  const personalCount = todos.filter(todo => todo.category === 'personal').length;
+  const studyCount = todos.filter(todo => todo.category === 'study').length;
   
     return (
     <div style={{padding: '20px'}}>
