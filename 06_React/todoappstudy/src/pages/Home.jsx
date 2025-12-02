@@ -1,69 +1,50 @@
-import React from 'react';
-import { 
-    HomeContainer, 
-    Title, 
-    StatsContainer, 
-    StatCard, 
-    StatNumber, 
-    StatLabel,
-    CategorySection,
-    SubTitle,
-    CategoryItem,
-    CategoryName,
-    Badge
-} from './Home.styled';
-import { useTodos } from '../context/TodoContext';
+import React from 'react'
+import { AreaTitle, CategoryArea, CategoryCount, CategoryItem, CategoryList, CategoryName, HomeContainer, StateArea, StateCard, StateLabel, StateNumber, Title } from './Home.styled'
+import { useTodos } from '../context/TodoContext'
+import { CATEGORY_NAMES, CATEGORYS, ROUTES } from '../routes/routePaths';
 
 const Home = () => {
-  const {todos} = useTodos();
+  const { getState } = useTodos();
+  const state = getState();
 
-  const totalCount = todos.length;
-  const completedCount = todos.filter(todo => todo.completed).length;
-  const activeCount = totalCount - completedCount;
+  const categories = [
+    { name: CATEGORY_NAMES[CATEGORYS.WORK], value: CATEGORYS.WORK, count: state.byCategory.work },
+    { name: CATEGORY_NAMES[CATEGORYS.STUDY], value: CATEGORYS.STUDY, count: state.byCategory.study },
+    { name: CATEGORY_NAMES[CATEGORYS.HEALTH], value: CATEGORYS.HEALTH, count: state.byCategory.health },
+  ]
 
-  const workCount = todos.filter(todo => todo.category === 'work').length;
-  const studyCount = todos.filter(todo => todo.category === 'study').length;
-  const healthCount = todos.filter(todo => todo.category === 'health').length;
   return (
     <HomeContainer>
-        <Title>Dashboard</Title>
+      <Title>Dashboard</Title>
 
-        <StatsContainer>
-            <StatCard>
-                <StatNumber>{totalCount}</StatNumber>
-                <StatLabel>전체 할일</StatLabel>
-            </StatCard>
-            <StatCard>
-                <StatNumber>{activeCount}</StatNumber>
-                <StatLabel>미완료</StatLabel>
-            </StatCard>
-            <StatCard>
-                <StatNumber>{completedCount}</StatNumber>
-                <StatLabel>완료</StatLabel>
-            </StatCard>
-        </StatsContainer>
+      <StateArea>
+        <StateCard>
+          <StateNumber>{state.total}</StateNumber>
+          <StateLabel>전체 할일</StateLabel>
+        </StateCard>
+        <StateCard>
+          <StateNumber>{state.pending}</StateNumber>
+          <StateLabel>미완료</StateLabel>
+        </StateCard>
+        <StateCard>
+          <StateNumber>{state.completed}</StateNumber>
+          <StateLabel>완료</StateLabel>
+        </StateCard>
+      </StateArea>
 
-        <CategorySection>
-            <SubTitle>카테고리별 할일</SubTitle>
-            
-            <CategoryItem>
-                <CategoryName>학습</CategoryName>
-                <Badge>{studyCount}</Badge>
+      <CategoryArea>
+        <AreaTitle>카테고리별 할일</AreaTitle>
+        <CategoryList>
+          { categories.map(category => (
+            <CategoryItem key={categories.value} to={ROUTES.CATEGORY(category.value)}>
+              <CategoryName>{category.name}</CategoryName>
+              <CategoryCount>{category.count}</CategoryCount>
             </CategoryItem>
-            
-            <CategoryItem>
-                <CategoryName>업무</CategoryName>
-                <Badge>{workCount}</Badge>
-            </CategoryItem>
-            
-            <CategoryItem>
-                <CategoryName>건강</CategoryName>
-                <Badge>{healthCount}</Badge>
-            </CategoryItem>
-
-        </CategorySection>
+          ))}
+        </CategoryList>
+      </CategoryArea>
     </HomeContainer>
   )
 }
 
-export default Home;
+export default Home

@@ -1,56 +1,81 @@
-import React, { Children, createContext, use, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
-export const TodoContext = createContext();
+const TodoContext = createContext();
+
+export const useTodos = () =>{
+    const context = useContext(TodoContext);
+    return context;
+}
 
 export const TodoProvider = ({children}) => {
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem('todos');
-    const today = new Date().toISOString();
-    return savedTodos ? JSON.parse(savedTodos) : [
-        { id: 1, text: '리액트 공부하기', category: 'study', completed: false, createdAt: today },
-        { id: 2, text: '여행가기', category: 'personal', completed: true, createdAt: today },
-        { id: 3, text: '세미 프로젝트', category: 'work', completed: true, createdAt: today },
-        { id: 4, text: '파이널 프로젝트', category: 'work', completed: false, createdAt: today },
-    ];
-  });
+    const [todos, setTodos] = useState(() => {
+        const savedTodos = localStorage.getItem('todos');
+        return savedTodos ? JSON.parse(savedTodos) : [];
+    });
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos));
-    }, [todos]);
+    },[todos])
 
-    const addTodo = (text, category) => {
-        setTodos([
-          ...todos,
-          { id: Date.now(),
+    const addTodo = (text, category) =>{
+        const newTodo ={
+            id: Date.now(),
             text,
             category,
-            completed: false,
-            createdAt: new Date().toISOString()
-         }
-        ]);
-      };
-  
+            createdAt : new Date().toISOString(),
+            completed : false,
+        }
+
+        setTodos(prev => [...prev, newTodo]);
+        
+        return newTodo;
+    }
+
     const deleteTodo = (id) => {
-        setTodos(todos.filter(todo => todo.id !== id));
+        setTodos(prev => prev.filter(todo => todo.id !== id));
+    }
+
+    const updateTodo = (id, updateTodo) =>{
+        setTodos(prev =>
+            prev.map(todo => 
+                todo.id === id ? {...todo, ...updateTodo} : todo
+            )
+        )
     }
 
     const toggleTodo = (id) => {
-        setTodos(todos.map(todo => 
-          todo.id === id ? { ...todo, completed: !todo.completed } : todo
-        ));
-      };
+        setTodos(prev => 
+            prev.map(todo => 
+                todo.id === id ? {...todo, completed: !todo.completed} : todo
+            )
+        )
+    }
 
-      const updateTodo = (id, newText, newCategory) => {
-        setTodos(todos.map(todo =>
-          todo.id === id ? { ...todo, text: newText, category: newCategory } : todo
-        ));
-      };
+    const getState = () => {
+        const total = todos.length;
+        const completed = todos.filter(todo => todo.completed).length;
+        const pending = total - completed;
 
+        const work = todos.filter(todo => todo.category === 'work').length
+        const health = todos.filter(todo => todo.category === 'health').length
+        const study = todos.filter(todo => todo.category === 'study').length
+
+        const byCategory = {
+            work, health, study
+        }
+
+        return {total, completed, pending, byCategory}
+    }
+
+    const value = {
+        todos,
+        addTodo,
+        deleteTodo,
+        updateTodo,
+        toggleTodo,
+        getState,
+    }
     return (
-    <TodoContext.Provider value={{todos, addTodo, deleteTodo, toggleTodo, updateTodo}}>
-        {children}
-    </TodoContext.Provider>
-  )
+        <TodoContext.Provider value={value}>{children}</TodoContext.Provider>
+    )
 }
-
-export default TodoContext

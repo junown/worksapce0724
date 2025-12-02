@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AddButton, FormContainer, Input, Select } from './TodoForm.styled'
 
-const TodoForm = ({ onAdd }) => {
+const TodoForm = ({ onAdd, disableOption }) => {
     const [text, setText] = useState('');
     const [category, setCategory] = useState('work');
 
