@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DataContext } from '../context/DataContext';
+import { UserContext } from '../context/UserContext';
 
 import { 
   HeaderWrapper, 
@@ -14,7 +14,7 @@ import {
 } from './Header.styled';
 
 const Header = () => {
-  const { user, logout } = useContext(DataContext);
+  const { user, logout } = useContext(UserContext);
 
   return (
     <HeaderWrapper>
@@ -29,6 +29,9 @@ const Header = () => {
         <AuthGroup>
           {user ? (
             <>
+              <LinkButton to="/register" $primary="true" style={{marginRight: '15px'}}>
+               + 판매하기
+              </LinkButton>
               <span>{user.name}님</span>
               <LinkButton to="/mypage">마이페이지</LinkButton>
               <ActionButton onClick={logout}>로그아웃</ActionButton>

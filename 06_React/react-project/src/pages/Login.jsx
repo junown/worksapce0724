@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { DataContext } from '../context/DataContext'
+import { UserContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom';
 import { AuthContainer, AuthForm, FullButton, InputGroup } from './Auth.styled';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login } = useContext(DataContext);
+    const { login } = useContext(UserContext);
 
     const [id, setId] = useState('');
     const [pwd, setPwd] = useState('');

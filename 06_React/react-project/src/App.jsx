@@ -1,11 +1,16 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components'; 
-import { DataProvider } from './context/DataContext';
-
 import Header from './components/Header';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Home from './pages/Home';
+import MyPage from './pages/MyPage';
+import CategoryList from './pages/CategoryList';
+import { UserProvider } from './context/UserContext';
+import { ProductProvider } from './context/ProductContext';
+import ProductRegister from './pages/ProductRegister';
+import ProductDetail from './pages/ProductDetail';
 
 const MainContainer = styled.div`
   max-width: 1200px; 
@@ -14,14 +19,12 @@ const MainContainer = styled.div`
   width: 100%;    
 `;
 
-const Home = () => <div style={{textAlign: 'center', marginTop: '50px'}}><h2>홈 화면 (상품 리스트)</h2></div>;
-const MyPage = () => <div>마이페이지</div>;
-const CategoryList = () => <div>카테고리 페이지</div>;
 const NotFound = () => <div>404 Not Found</div>;
 
 function App() {
   return (
-    <DataProvider>
+    <UserProvider>
+      <ProductProvider>
       <BrowserRouter>
         <Header /> 
         <MainContainer>
@@ -31,12 +34,14 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/category/:categoryName" element={<CategoryList />} />
+            <Route path="/register" element={<ProductRegister />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </MainContainer>
-
       </BrowserRouter>
-    </DataProvider>
+      </ProductProvider>
+    </UserProvider>
   );
 }
 

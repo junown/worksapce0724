@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DataContext } from '../context/DataContext';
+import { UserContext } from '../context/UserContext';
 import { AuthContainer, AuthForm, InputGroup, FullButton } from './Auth.styled';
 
 const Signup = () => {
-    const { signup } = useContext(DataContext);
+    const { signup } = useContext(UserContext);
     
     const navigate = useNavigate();
 
