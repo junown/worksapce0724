@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import './App.css'
-import JavaScript from './components/JavaScript'
-import Style from './components/Style'
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      {/* <JavaScript/> */}
-      <Style />
-    </>
+    <Router>
+      <Routes>
+        <Route path='/' element>
+      </Routes>
+    </Router>
   )
 }
 
