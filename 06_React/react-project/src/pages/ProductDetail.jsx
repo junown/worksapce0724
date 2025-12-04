@@ -4,7 +4,7 @@ import { ProductContext } from '../context/ProductContext';
 import { UserContext } from '../context/UserContext';
 import { 
   DetailContainer, ContentWrapper, ImageArea, InfoArea, 
-  CategoryBadge, ProductName, ProductPrice, MetaInfo, DescriptionBox, BackButton, ButtonGroup, EditSelect
+  CategoryBadge, ProductName, ProductPrice, MetaInfo, DescriptionBox, BackButton, ButtonGroup, EditSelect, PurchaseButton
 } from './ProductDetail.styled';
 
 const ProductDetail = () => {
@@ -50,6 +50,29 @@ const ProductDetail = () => {
         navigate('/');
       }
     }
+
+    const handlePurchase = () => {
+      if (!user) {
+        alert('로그인이 필요합니다.');
+        navigate('/login');
+        return;
+      }
+
+      if(user.id === product.seller) {
+        alert('자신의 물건은 자기가 구매불가능합니다');
+        return;
+      }
+
+      if(window.confirm('정말로 이 상품을 구매하시겠습니까?')){
+        updateProduct({
+          ...product,
+          status: '판매완료'
+        });
+
+        alert('구매가 완료되었습니다! 감사합니다');
+      }
+    }
+
 
   return (
     <DetailContainer>
@@ -118,11 +141,18 @@ const ProductDetail = () => {
           <DescriptionBox>
             {product.description || "상품 설명이 없습니다."}
           </DescriptionBox>
-          {isSeller && (
+          {isSeller ? (
             <ButtonGroup>
               <button className='edit-btn' onClick={() => setisEditing(true)}>수정하기</button>
               <button className='delete-btn' onClick={handleDelete}>삭제하기</button>
             </ButtonGroup>
+          ) : (
+            <PurchaseButton
+              onClick={handlePurchase}
+              disabled={product.status === '판매완료'}
+            >
+              {product.status === '판매완료' ? '품절된 상품입니다' : '구매하기'}
+            </PurchaseButton>
           )}
           </>
         )}

@@ -161,3 +161,30 @@ export const ButtonGroup = styled.div`
   .save-btn { background: #40c057; color: white; }
   .cancel-btn { background: #adb5bd; color: white; }
 `;
+
+export const PurchaseButton = styled.button`
+  width: 100%;
+  padding: 15px;
+  background-color: #ff6f61; 
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #e85a4f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  &:disabled {
+    background-color: #ced4da;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+`;
