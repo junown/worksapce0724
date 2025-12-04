@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 
 import { 
@@ -12,10 +12,19 @@ import {
   CategoryNav, 
   CategoryLink 
 } from './Header.styled';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
 
+  const [text, setText] = useState('');
+
+  const handleKeyDown = (e) => {
+    if(e.key === 'Enter'){
+      navigate(`/search/${text}`);
+    }
+  }
   return (
     <HeaderWrapper>
       <TopBar>
@@ -24,7 +33,13 @@ const Header = () => {
           굿거래
         </Logo>
 
-        <SearchInput type="text" placeholder="상품명 입력" />
+        <SearchInput 
+          type="text" 
+          placeholder="상품명 입력"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          />
 
         <AuthGroup>
           {user ? (
@@ -46,9 +61,9 @@ const Header = () => {
       </TopBar>
 
       <CategoryNav>
-        <CategoryLink to="/category/fashion">패션</CategoryLink>
-        <CategoryLink to="/category/electronics">전자기기</CategoryLink>
-        <CategoryLink to="/category/beauty">뷰티</CategoryLink>
+        <CategoryLink to="/category/패션">패션</CategoryLink>
+        <CategoryLink to="/category/전자기기">전자기기</CategoryLink>
+        <CategoryLink to="/category/뷰티">뷰티</CategoryLink>
       </CategoryNav>
     </HeaderWrapper>
   );

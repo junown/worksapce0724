@@ -11,6 +11,8 @@ import { UserProvider } from './context/UserContext';
 import { ProductProvider } from './context/ProductContext';
 import ProductRegister from './pages/ProductRegister';
 import ProductDetail from './pages/ProductDetail';
+import SearchPage from './pages/SerachPage';
+import NotFound from './pages/NotFound';
 
 const MainContainer = styled.div`
   max-width: 1200px; 
@@ -19,7 +21,6 @@ const MainContainer = styled.div`
   width: 100%;    
 `;
 
-const NotFound = () => <div>404 Not Found</div>;
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/category/:categoryName" element={<CategoryList />} />
             <Route path="/register" element={<ProductRegister />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/search/:keyword" element={<SearchPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </MainContainer>

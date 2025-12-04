@@ -1,20 +1,54 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ProductContext } from '../context/ProductContext';
+import { UserContext } from '../context/UserContext';
 import { 
   DetailContainer, ContentWrapper, ImageArea, InfoArea, 
-  CategoryBadge, ProductName, ProductPrice, MetaInfo, DescriptionBox, BackButton 
+  CategoryBadge, ProductName, ProductPrice, MetaInfo, DescriptionBox, BackButton, ButtonGroup, EditSelect
 } from './ProductDetail.styled';
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const { products } = useContext(ProductContext);
+    const { products, updateProduct, deleteProduct } = useContext(ProductContext);
+    const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
     const product = products.find(p => p.id === Number(id));
 
+    const [isEditing, setisEditing] = useState(false);
+
+    const [editForm, seteditForm] = useState({
+      name: '', price: '', category: '', description: '', status: ''
+    });
+
+    useEffect(() => {
+      if(product){
+        seteditForm(product);
+      }
+    },[product]);
+
     if (!product){
         return <div>상품을 찾을 수 없습니다</div>
+    }
+
+    const isSeller = user && user.id === product.seller;
+
+    const handleChange =(e) => {
+      seteditForm({ ...editForm, [e.target.name]: e.target.value});
+    }
+
+    const handleUpdate = () => {
+      updateProduct(editForm);
+      setisEditing(false);
+      alert('상품 정보가 수정되었습니다');
+    }
+
+    const handleDelete = () => {
+      if(window.confirm('정말로 이 상품을 삭제하시겠습니까?')){
+        deleteProduct(product.id);
+        alert('상품이 삭제되었습니다');
+        navigate('/');
+      }
     }
 
   return (
@@ -29,7 +63,41 @@ const ProductDetail = () => {
         </ImageArea>
 
         <InfoArea>
-          <div style={{display:'flex', gap:'10px'}}>
+          {isEditing ? (
+          <>
+            <div style={{display:'flex', gap:'10px'}}>
+              <EditSelect name="category" value={editForm.category} onChange={handleChange}>
+                <option value="전자기기">전자기기</option>
+                <option value="패션">패션</option>
+                <option value="뷰티">뷰티</option>
+              </EditSelect>
+              <EditSelect name="status" value={editForm.status} onChange={handleChange}>
+                <option value="판매중">판매중</option>
+                <option value="예약중">예약중</option>
+                <option value="판매완료">판매완료</option>
+              </EditSelect>
+            </div>
+
+            <ProductName>
+              <input name="name" value={editForm.name} onChange={handleChange} placeholder='상품명' />
+            </ProductName>
+            
+            <ProductPrice>
+              <input type="number" name="price" value={editForm.price} onChange={handleChange} placeholder='가격'/>
+            </ProductPrice>
+            
+            <DescriptionBox>
+              <textarea name="description" value={editForm.description} onChange={handleChange} placeholder='설명을 입력해주세요'/>
+            </DescriptionBox>
+
+            <ButtonGroup>
+              <button className="save-btn" onClick={handleUpdate}>수정 완료</button>
+              <button className="cancel-btn" onClick={() => setisEditing(false)}>취소</button>
+            </ButtonGroup>
+          </>
+          ) : (
+            <>
+            <div style={{display:'flex', gap:'10px'}}>
              <CategoryBadge>{product.category}</CategoryBadge>
              <CategoryBadge style={{background: product.status === '판매중' ? '#e6fcf5' : '#fff3bf', color: '#333'}}>
                 {product.status}
@@ -50,8 +118,16 @@ const ProductDetail = () => {
           <DescriptionBox>
             {product.description || "상품 설명이 없습니다."}
           </DescriptionBox>
-
+          {isSeller && (
+            <ButtonGroup>
+              <button className='edit-btn' onClick={() => setisEditing(true)}>수정하기</button>
+              <button className='delete-btn' onClick={handleDelete}>삭제하기</button>
+            </ButtonGroup>
+          )}
+          </>
+        )}
           <BackButton onClick={() => navigate(-1)}>← 목록으로 돌아가기</BackButton>
+          
         </InfoArea>
       </ContentWrapper>
     </DetailContainer>

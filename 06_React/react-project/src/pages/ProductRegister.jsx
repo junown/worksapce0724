@@ -15,6 +15,7 @@ const ProductRegister = () => {
         price: '',
         category: '전자기기',
         description: '',
+        imageUrl: ''
     });
 
     const handleChange = (e) => {
@@ -32,7 +33,7 @@ const ProductRegister = () => {
             category: input.category,
             description: input.description,
             seller: user.id,
-            images: []
+            images: input.imageUrl ? [input.imageUrl] : []
         });
 
         alert('상품이 성공적으로 등록되었습니다');
@@ -47,6 +48,28 @@ const ProductRegister = () => {
       <Title>내 물건 팔기</Title>
       
       <RegisterForm>
+        <InputGroup>
+          <label>대표 이미지 URL</label>
+          <input 
+            name="imageUrl" 
+            value={input.imageUrl} 
+            onChange={handleChange} 
+            placeholder="이미지 주소를 복사해서 붙여넣으세요 (https://...)" 
+          />
+          {input.imageUrl && (
+            <div style={{ marginTop: '10px' }}>
+                <span style={{ fontSize: '12px', color: '#666' }}>미리보기:</span>
+                <br />
+                <img 
+                    src={input.imageUrl} 
+                    alt="미리보기" 
+                    style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '8px', marginTop: '5px' }} 
+                    onError={(e) => { e.target.src = 'https://via.placeholder.com/150?text=No+Image'; }}
+                />
+            </div>
+          )}
+        </InputGroup>
+
         <InputGroup>
           <label>상품명</label>
           <input 

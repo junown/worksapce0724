@@ -52,6 +52,15 @@ export const ProductName = styled.h1`
   margin: 0 0 15px 0;
   color: #333;
   line-height: 1.4;
+
+  input {
+    font-size: inherit;
+    font-weight: inherit;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+  }
 `;
 
 export const ProductPrice = styled.div`
@@ -61,6 +70,15 @@ export const ProductPrice = styled.div`
   margin-bottom: 30px;
   padding-bottom: 30px;
   border-bottom: 1px solid #eee; 
+
+  input {
+    font-size: inherit; 
+    font-weight: inherit;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+  }
 `;
 
 export const MetaInfo = styled.div`
@@ -94,6 +112,17 @@ export const DescriptionBox = styled.div`
   line-height: 1.6;
   color: #555;
   white-space: pre-wrap; 
+
+  textarea {
+    width: 100%;
+    height: 150px; 
+    font-size: inherit;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    background: white; 
+  }
 `;
 
 export const BackButton = styled.button`
@@ -105,4 +134,30 @@ export const BackButton = styled.button`
   cursor: pointer;
   font-weight: bold;
   &:hover { background: #f8f9fa; }
+`;
+
+export const EditSelect = styled.select`
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+
+  button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+
+  .edit-btn { background: #339af0; color: white; }
+  .delete-btn { background: #fa5252; color: white; }
+  .save-btn { background: #40c057; color: white; }
+  .cancel-btn { background: #adb5bd; color: white; }
 `;
