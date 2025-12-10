@@ -16,39 +16,52 @@
 
     <select id="findAll" resultMap="boardResult">
         SELECT  BOARD_ID,
-                TITLE,
-                MEMBER_EMAIL,
-                CREATE_AT,
-                UPDATE_AT
+        TITLE,
+        MEMBER_EMAIL,
+        CREATE_AT,
+        UPDATE_AT
         FROM BOARD
     </select>
     <insert id="save">
         INSERT INTO
         BOARD(
-            TITLE,
-            CONTENTS,
-            FILE_NAME,
-            MEMBER_EMAIL,
-            CREATE_AT,
-            UPDATE_AT
+        TITLE,
+        CONTENTS,
+        FILE_NAME,
+        MEMBER_EMAIL,
+        CREATE_AT,
+        UPDATE_AT
         ) VALUES (
-            #{title},
-            #{contents},
-            #{fileName},
-            #{memberEmail},
-            CURRENT_TIMESTAMP,
-            CURRENT_TIMESTAMP
+        #{title},
+        #{contents},
+        #{fileName},
+        #{memberEmail},
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
         )
     </insert>
     <select id="findOne" resultMap="boardResult">
         SELECT BOARD_ID,
-                TITLE,
-                MEMBER_EMAIL,
-                CONTENTS,
-                FILE_NAME,
-                CREATE_AT,
-                UPDATE_AT
+        TITLE,
+        MEMBER_EMAIL,
+        CONTENTS,
+        FILE_NAME,
+        CREATE_AT,
+        UPDATE_AT
         FROM BOARD
         WHERE BOARD_ID = #{boardId}
     </select>
+    <delete id="delete">
+        DELETE
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </delete>
+    <update id="update">
+        UPDATE BOARD
+        SET TITLE = #{title},
+        CONTENTS = #{contents},
+        FILE_NAME = #{fileName},
+        UPDATE_AT = CURRENT_TIMESTAMP
+        WHERE BOARD_ID = #{boardId}
+    </update>
 </mapper>

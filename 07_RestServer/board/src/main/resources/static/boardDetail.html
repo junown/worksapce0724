@@ -19,36 +19,36 @@
 </head>
 
 <body onload="initBoard()">
-    <div class="container-fluid text-white text-center main-banner">
-        <img src="/images/banner.png" alt="메인베너">
-    </div>
+<div class="container-fluid text-white text-center main-banner">
+    <img src="/images/banner.png" alt="메인베너">
+</div>
 
-    <div class="container mt-3">
-        <h2>게시글 상세</h2>
-        <div class="mb-3">
-            <label for="title" class="form-label">제목</label>
-            <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required>
-        </div>
-        <div class="mb-3">
-            <label for="memberEmail" class="form-label">글쓴이</label>
-            <input type="text" class="form-control" id="memberEmail" placeholder="글쓴이 ID을 입력하세요" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="contents" class="form-label">내용</label>
-            <textarea class="form-control" id="contents" rows="5" placeholder="내용을 입력하세요" required></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="upfile" class="form-label">첨부파일</label>
-            <a id="fileName" download></a>
-            <input type="hidden" id="originFile">
-            <input type="file" class="form-control" id="upfile">
-        </div>
-        <div class="btn-area">
-            <button type="submit" class="btn btn-primary" onclick="location.href='/'">목록으로</button>
-            <button type="submit" class="btn btn-warning" onclick="updateBoard()">수정</button>
-            <button type="submit" class="btn btn-danger" onclick="deleteBoard()">삭제</button>
-        </div>
+<div class="container mt-3">
+    <h2>게시글 상세</h2>
+    <div class="mb-3">
+        <label for="title" class="form-label">제목</label>
+        <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" required>
     </div>
+    <div class="mb-3">
+        <label for="memberEmail" class="form-label">글쓴이</label>
+        <input type="text" class="form-control" id="memberEmail" placeholder="글쓴이 ID을 입력하세요" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="contents" class="form-label">내용</label>
+        <textarea class="form-control" id="contents" rows="5" placeholder="내용을 입력하세요" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="upfile" class="form-label">첨부파일</label>
+        <a id="fileName" download></a>
+        <input type="hidden" id="originFile">
+        <input type="file" class="form-control" id="upfile">
+    </div>
+    <div class="btn-area">
+        <button type="submit" class="btn btn-primary" onclick="location.href='/'">목록으로</button>
+        <button type="submit" class="btn btn-warning" onclick="updateBoard()">수정</button>
+        <button type="submit" class="btn btn-danger" onclick="deleteBoard()">삭제</button>
+    </div>
+</div>
 </body>
 
 </html>
