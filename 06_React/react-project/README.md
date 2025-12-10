@@ -11,7 +11,6 @@ React와 Context API를 활용하여 만든 중고 물품 거래 서비스입니
 - **State Management**: Context API (UserContext, ProductContext)
 - **Styling**: Styled-components
 - **Data Persistence**: LocalStorage (새로고침 시 데이터 유지)
-- **Image Handling**: Base64 Encoding (FileReader)
 
 ## 📌 주요 기능 (Key Features)
 
@@ -36,6 +35,9 @@ React와 Context API를 활용하여 만든 중고 물품 거래 서비스입니
 - **반응형 디자인**: Flexbox와 Grid를 활용한 레이아웃.
 - **404 페이지**: 잘못된 경로 접근 시 에러 페이지 제공.
 
+### 실행 방법
+비쥬얼 스튜디오 실행후 터미널에 "npm i styled-components react-router-dom"후 "npm run dev" 실행 
+
 ## 📂 폴더 구조 (Folder Structure)
 
 src/
@@ -45,3 +47,4 @@ src/
 ├── pages/           # 홈, 로그인, 상품등록, 상세페이지 등
 ├── App.js           # 라우팅 설정
 └── index.js         # 진입점
+
