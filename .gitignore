@@ -116,6 +116,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# H2 Database files
+*.db
+*.mv.db
+*.trace.db
+
+# Logs
+*.log
+
 # Windows shortcuts
 *.lnk
 
