@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "NOTICE")
 
 
-public class Notice {
+public class Notice extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +27,9 @@ public class Notice {
 
     @JoinColumn(name = "notice_writer", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member userId;
+    private Member noticeWriter;
 
     @Column(name = "notice_content", length = 200, nullable = false)
     private String noticeContent;
 
-    @CreationTimestamp
-    @Column(name = "create_date", updatable = false)
-    private LocalDateTime createDate;
 }

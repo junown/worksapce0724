@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "BOARD")
-public class Board {
+public class Board extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +23,6 @@ public class Board {
 
     @Column(name = "board_title", length = 100, nullable = false)
     private String boardTitle;
-
-    @JoinColumn(name = "board_writer", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member userId;
 
     @Column(name = "board_content", nullable = false)
     private String boardContent;
@@ -40,13 +36,13 @@ public class Board {
     @Column
     private int count;
 
-    @CreationTimestamp
-    @Column(name = "create_date", updatable = false)
-    private LocalDateTime createDate;
-
     @Column(length = 1)
     private String status;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boardNo", cascade = CascadeType.ALL)
     private List<Reply> reply = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_writer")
+    private Member boardWriter;
 }

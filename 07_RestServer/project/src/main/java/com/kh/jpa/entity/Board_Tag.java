@@ -11,13 +11,12 @@ import lombok.*;
 @Table(name = "BOARD_TAG")
 public class Board_Tag {
     @Id
-    @JoinColumn(name = "board_no")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_no")
     private Board boardNo;
 
     @Id
-    @JoinColumn(name = "tag_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id")
     private Tag tagId;
-
 }

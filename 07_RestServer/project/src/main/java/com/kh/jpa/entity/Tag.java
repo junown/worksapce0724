@@ -22,6 +22,6 @@ public class Tag {
     @Column(name = "tag_name", length = 30, nullable = false)
     private String tagName;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tagId", cascade = CascadeType.ALL)
     private List<Board_Tag> boardTags = new ArrayList<>();
 }

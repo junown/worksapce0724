@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "REPLY")
-public class Reply {
+public class Reply extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reply_no")
@@ -21,17 +21,14 @@ public class Reply {
     @Column(name = "reply_content", length = 400, nullable = false)
     private String replyContent;
 
-    @JoinColumn(name = "ref_bno", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ref_bno", nullable = false)
     private Board boardNo;
 
-    @JoinColumn(name = "reply_writer", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member userId;
+    @JoinColumn(name = "reply_writer")
+    private Member replyWriter;
 
-    @CreationTimestamp
-    @Column(name = "create_date", updatable = false)
-    private LocalDateTime createDate;
 
     @Column(length = 1)
     private String status;

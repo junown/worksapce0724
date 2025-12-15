@@ -1,5 +1,6 @@
 package com.kh.jpa.entity;
 
+import com.kh.jpa.enums.CommonEnums;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,12 +12,11 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //JPA스펙상 필수 + 외부 생성 방지
 @Builder
 @Entity
-@Table(name = "MEMEBER")
-public class Member {
-
+@Table(name = "MEMBER")
+public class Member extends BaseTimeEntity{
     @Id
     @Column(name = "user_id", length = 30)
     private String userId;
@@ -31,10 +31,11 @@ public class Member {
     private String email;
 
     @Column(length = 1)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column
-    private String age;
+    private Integer age;
 
     @Column(length = 13)
     private String phone;
@@ -42,17 +43,23 @@ public class Member {
     @Column(length = 100)
     private String address;
 
-    @CreationTimestamp
-    @Column(name = "enroll_date", updatable = false)
-    private LocalDateTime enrollDate;
+    @Column(length = 1)
+    @Enumerated(EnumType.STRING)
+    private CommonEnums.Status status;
 
-    @UpdateTimestamp
-    @Column(name = "modify_date", updatable = false)
-    private LocalDateTime modifyDate;
+    @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Profile profile;
 
-    @Column(length = 1, nullable = false)
-    private String status;
+    @OneToMany(mappedBy = "boardWriter", cascade = CascadeType.ALL)
+    private List<Board> boardList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Profile> profiles = new ArrayList<>();
+    @OneToMany(mappedBy = "replyWriter", cascade = CascadeType.ALL)
+    private List<Reply> replyList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "noticeWriter", cascade = CascadeType.ALL)
+    private List<Notice> noticeList = new ArrayList<>();
+
+    public enum Gender {
+        M, F
+    }
 }

@@ -4,10 +4,10 @@ spring:
 
   datasource:
     hikari:
-      jdbc-url: jdbc:h2:file:C:/work/07_RestServer/project/tdb;
+      jdbc-url: jdbc:h2:file:C:/work/07_RestServer/project/tdb
       driver-class-name: org.h2.Driver
       username: sa
-      password:
+      password: 1234
 
   h2:
     console:
@@ -26,6 +26,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     show-sql: true
     properties:
       hibernate:
