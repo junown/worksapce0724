@@ -21,7 +21,7 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<String> signup(@RequestBody MemberSignupRequestDto dto) {
-        System.out.println("📢 회원가입 요청 옴: " + dto.getId());
+        System.out.println(" 회원가입 요청 옴: " + dto.getId());
         try {
             memberService.signup(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공!");
@@ -32,7 +32,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto dto) {
-        System.out.println("📢 로그인 요청 옴: " + dto.getId());
+        System.out.println(" 로그인 요청 옴: " + dto.getId());
         try {
             MemberLoginResponseDto responseDto = memberService.login(dto);
             return ResponseEntity.ok(responseDto);
@@ -43,7 +43,7 @@ public class MemberController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody MemberUpdateRequestDto dto) {
-        System.out.println("📢 사용자 정보 수정 요청 옴: " + id);
+        System.out.println(" 사용자 정보 수정 요청 옴: " + id);
         try {
             MemberLoginResponseDto responseDto = memberService.update(id, dto);
             return ResponseEntity.ok(responseDto);
@@ -54,7 +54,7 @@ public class MemberController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id, @RequestBody MemberDeleteRequestDto dto) {
-        System.out.println("📢 사용자 삭제 요청 옴: " + id);
+        System.out.println(" 사용자 삭제 요청 옴: " + id);
         try {
             memberService.delete(id, dto);
             return ResponseEntity.ok("회원 탈퇴가 완료되었습니다.");
