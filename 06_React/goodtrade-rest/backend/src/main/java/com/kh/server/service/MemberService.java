@@ -19,7 +19,7 @@ public class MemberService {
 
     @Transactional
     public Long signup(MemberSignupRequestDto dto) {
-        if (memberRepository.existsByUserId(dto.getId())) {
+            if (memberRepository.existsByUserId(dto.getId())) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
         return memberRepository.save(dto.toEntity()).getId();
