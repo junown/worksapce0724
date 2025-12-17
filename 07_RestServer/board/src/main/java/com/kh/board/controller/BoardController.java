@@ -72,9 +72,9 @@ public class BoardController {
 
     @DeleteMapping("/{boardId}")
     public ResponseEntity<String> deleteBoard(@PathVariable Long boardId){
-        int result = boardService.delete(boardId);
+       int result = boardService.delete(boardId);
 
-        return new ResponseEntity<>(result + "개의 게시글 삭제완료", HttpStatus.OK);
+       return new ResponseEntity<>(result + "개의 게시글 삭제완료", HttpStatus.OK);
     }
 
     @PutMapping

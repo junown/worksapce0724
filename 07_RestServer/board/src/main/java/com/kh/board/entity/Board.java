@@ -1,7 +1,6 @@
 package com.kh.board.entity;
 
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "BOARD") //DB의 BOARD테이블과 매핑
 public class Board {
-    @Id // pk
+    @Id //pk
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long boardId;
@@ -23,11 +22,19 @@ public class Board {
     @Column(nullable = false, length = 255) //not null
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT") //not null
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String contents;
 
     @Column(name = "file_name", length = 255)
     private String fileName;
+
+    @CreationTimestamp
+    @Column(name = "create_at",  updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "update_at")
+    private LocalDateTime updatedAt;
 
     //Board : Member = N : 1 관계(다수의 게시글은 하나의 회원에 속한)
     //LAZY : 실제 member정보가 필요할 때까지 조회를 지연
@@ -35,15 +42,6 @@ public class Board {
     @JoinColumn(name = "member_email", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
-
-    @CreationTimestamp
-    @Column(name = "create_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "update_at", updatable = false)
-    private LocalDateTime updatedAt;
-
 
     public void patchUpdate(String title, String contents, String fileName) {
         if(title != null) {

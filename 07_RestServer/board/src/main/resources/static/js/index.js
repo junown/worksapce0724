@@ -31,8 +31,8 @@ function formatDate(date) {
 function getBoard(boardId, callback){
     $.ajax({
         url: "http://localhost:8888/api/board/" + boardId,
-        type: "get",
-        contentType: "application/json",
+        type: "get",                            
+        contentType: "application/json",       
         success: function(response) {
             console.log(response)
             callback(response)
@@ -47,7 +47,7 @@ function getBoardList(callback){
     $.ajax({
         url: "http://localhost:8888/api/board",
         type: "get",
-        contentType: "application/json",
+        contentType: "application/json",       
         success: function(response) {
             callback(response)
         },
@@ -149,7 +149,7 @@ function deleteBoard(){
         type: "DELETE",
         success: function(response) {
             alert("글이 성공적으로 삭제되었습니다.");
-            window.location.href = "/";
+            window.location.href = "/"; 
         },
         error: function(error) {
             alert("글 등록에 실패했습니다.");
