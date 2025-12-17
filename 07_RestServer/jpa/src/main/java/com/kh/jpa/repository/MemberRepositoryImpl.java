@@ -29,4 +29,17 @@ public class MemberRepositoryImpl implements MemberRepository {
         //ofNullable -> 찾는 Member가 있다면 정상적으로 Optional<Member>반환 없다면 Optional<null>반환
     }
 
+    @Override
+    public void delete(Member member) {
+        em.remove(member);
+    }
+
+    @Override
+    public List<Member> findByUserNameContaining(String keyword) {
+        String jpql = "select m from Member m where m.userName LIKE :keyword";
+        return em.createQuery(jpql, Member.class)
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
+    }
+
 }

@@ -110,4 +110,29 @@ public class MemberServiceImpl implements MemberService {
                 member.getModifyDate()
         );
     }
+
+    @Override
+    public void deleteMember(String userId) {
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        memberRepository.delete(member);
+    }
+
+    @Override
+    public List<MemberDto.Response> getMembersByName(String keyword) {
+        return memberRepository.findByUserNameContaining(keyword)
+                .stream()
+                .map((member) -> MemberDto.Response.of(
+                        member.getUserId(),
+                        member.getUserName(),
+                        member.getEmail(),
+                        member.getGender(),
+                        member.getAge(),
+                        member.getPhone(),
+                        member.getAddress(),
+                        member.getCreateDate(),
+                        member.getModifyDate()
+                )).toList();
+    }
 }
