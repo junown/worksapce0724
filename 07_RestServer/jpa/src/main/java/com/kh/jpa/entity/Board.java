@@ -4,6 +4,9 @@ import com.kh.jpa.enums.CommonEnums;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Builder @AllArgsConstructor
 @Entity
 @Table(name = "board")
@@ -43,4 +46,42 @@ public class Board extends BaseTimeEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_writer", nullable = false)
     private Member member;
+
+    @OneToMany(mappedBy = "board",orphanRemoval = true,cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<BoardTag> boardTags =  new ArrayList<>();
+
+    public void changeMember(Member member) {
+        this.member = member;
+
+        if(!member.getBoards().contains(this))
+            member.getBoards().add(this);
+    }
+
+    public void changeFile(String originName, String changeName) {
+        if(originName != null) this.originName = originName;
+        if(changeName != null) this.changeName = changeName;
+    }
+
+    public void addTag(Tag tag){
+        BoardTag boardTag = BoardTag.builder()
+                .tag(tag)
+                .build();
+
+        boardTag.changeBoard(this);
+        this.boardTags.add(boardTag);
+    }
+
+    //게시글 정보 전체수정 메서드
+    public void putUpdate(String boardTitle, String boardContent, String originName, String changeName) {
+        this.boardTitle = boardTitle;
+        this.boardContent = boardContent;
+        if(originName != null) this.originName = originName;
+        if(changeName != null) this.changeName = changeName;
+    }
+
+    //기존 태그 모두 제거
+    public void clearTags() {
+        this.boardTags.clear();
+    }
 }
