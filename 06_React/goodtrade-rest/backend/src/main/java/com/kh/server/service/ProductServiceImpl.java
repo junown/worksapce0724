@@ -3,7 +3,9 @@ package com.kh.server.service;
 import com.kh.server.dto.ProductRequestDto;
 import com.kh.server.dto.ProductResponseDto;
 import com.kh.server.dto.ProductUpdateRequestDto;
+import com.kh.server.entity.Member;
 import com.kh.server.entity.Product;
+import com.kh.server.repository.MemberRepository;
 import com.kh.server.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,14 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional
     public ProductResponseDto create(ProductRequestDto dto, Long sellerId) {
-        Product product = dto.toEntity(sellerId);
+        Member seller = memberRepository.findById(sellerId)
+                .orElseThrow(() -> new IllegalArgumentException("판매자를 찾을 수 없습니다."));
+        Product product = dto.toEntity(seller);
         Product savedProduct = productRepository.save(product);
         return new ProductResponseDto(savedProduct);
     }
@@ -71,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
 
         // 판매자 확인
-        if (!product.getSellerId().equals(sellerId)) {
+        if (product.getSeller() == null || !product.getSeller().getId().equals(sellerId)) {
             throw new IllegalArgumentException("본인의 상품만 수정할 수 있습니다.");
         }
 
@@ -109,7 +114,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
 
         // 판매자 확인
-        if (!product.getSellerId().equals(sellerId)) {
+        if (product.getSeller() == null || !product.getSeller().getId().equals(sellerId)) {
             throw new IllegalArgumentException("본인의 상품만 삭제할 수 있습니다.");
         }
 

@@ -1,5 +1,6 @@
 package com.kh.server.dto;
 
+import com.kh.server.entity.Member;
 import com.kh.server.entity.Product;
 import lombok.Data;
 import java.util.List;
@@ -12,7 +13,7 @@ public class ProductRequestDto {
     private String description;
     private List<String> images;
 
-    public Product toEntity(Long sellerId) {
+    public Product toEntity(Member seller) {
         String imagesJson = images != null && !images.isEmpty() 
             ? String.join(",", images) 
             : "";
@@ -22,7 +23,7 @@ public class ProductRequestDto {
                 .price(price)
                 .category(category)
                 .description(description)
-                .sellerId(sellerId)
+                .seller(seller)
                 .status("판매중")
                 .images(imagesJson)
                 .build();

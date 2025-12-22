@@ -22,7 +22,7 @@ public class ProductResponseDto {
         this.price = product.getPrice();
         this.category = product.getCategory();
         this.status = product.getStatus();
-        this.seller = product.getSellerId();
+        this.seller = product.getSeller() != null ? product.getSeller().getId() : null;
         this.description = product.getDescription();
         
         if (product.getImages() != null && !product.getImages().isEmpty()) {

@@ -119,6 +119,22 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Gradle 임시 파일 및 캐시
+.gradle/
+build/
+
+# IDE 관련 설정 파일 (IntelliJ, Eclipse 등)
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+bin/
+
+# OS 관련 임시 파일
+.DS_Store
+Thumbs.db
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java
 
 ### Node.js / React / Vite ###

@@ -22,11 +22,11 @@ React와 Spring Boot를 활용한 풀스택 중고 물품 거래 서비스입니
 굿거래는 사용자 친화적인 인터페이스로 중고 물품을 쉽게 등록하고 거래할 수 있는 플랫폼입니다.
 
 ### 특징
-- ✅ RESTful API 기반의 백엔드 서버
-- ✅ React 기반의 모던한 프론트엔드
-- ✅ 실시간 상품 상태 관리
-- ✅ 카테고리별 필터링 및 검색 기능
-- ✅ 사용자 인증 및 권한 관리
+- RESTful API 기반의 백엔드 서버
+- React 기반의 모던한 프론트엔드
+- 실시간 상품 상태 관리
+- 카테고리별 필터링 및 검색 기능
+- 사용자 인증 및 권한 관리
 
 ---
 
@@ -97,13 +97,19 @@ goodtrade-rest/
 │   │   │   ├── MemberRepository.java
 │   │   │   └── ProductRepository.java
 │   │   ├── entity/             # 데이터베이스 엔티티
+│   │   │   ├── BaseTimeEntity.java
 │   │   │   ├── Member.java
-│   │   │   └── Product.java
+│   │   │   ├── Product.java
+│   │   │   └── Order.java
 │   │   ├── dto/                # 데이터 전송 객체
 │   │   │   ├── MemberSignupRequestDto.java
 │   │   │   ├── MemberLoginRequestDto.java
+│   │   │   ├── MemberLoginResponseDto.java
+│   │   │   ├── MemberUpdateRequestDto.java
+│   │   │   ├── MemberDeleteRequestDto.java
 │   │   │   ├── ProductRequestDto.java
-│   │   │   └── ProductResponseDto.java
+│   │   │   ├── ProductResponseDto.java
+│   │   │   └── ProductUpdateRequestDto.java
 │   │   └── ServerApplication.java
 │   ├── src/main/resources/
 │   │   └── application.properties
@@ -158,7 +164,21 @@ cd backend
 
 백엔드 서버가 `http://localhost:8080`에서 실행됩니다.
 
-### 2. 프론트엔드 서버 실행
+### 2. H2 데이터베이스 콘솔 접속
+
+백엔드 서버 실행 후 브라우저에서 H2 콘솔에 접속할 수 있습니다.
+
+**접속 정보:**
+- URL: `http://localhost:8080/h2-console`
+- JDBC URL: `jdbc:h2:file:./MyShoppingDB`
+- 사용자명: `sa`
+- 비밀번호: (비워두기)
+
+**주의사항:**
+- 백엔드 서버가 실행 중이어야 H2 콘솔에 접속할 수 있습니다.
+- 데이터베이스 파일은 프로젝트 루트 디렉토리에 `MyShoppingDB.mv.db`로 생성됩니다.
+
+### 3. 프론트엔드 서버 실행
 
 ```bash
 # 새 터미널에서 frontend 디렉토리로 이동
@@ -176,10 +196,48 @@ npm run dev
 
 프론트엔드 서버가 `http://localhost:5173`에서 실행됩니다.
 
-### 3. 브라우저에서 접속
+### 4. 브라우저에서 접속
 
 ```
 http://localhost:5173
+```
+
+---
+
+## 주요 도메인 설명
+
+### 엔티티 구조
+
+프로젝트는 3개의 주요 엔티티로 구성되어 있습니다.
+
+#### 1. Member (회원)
+- 회원의 기본 정보를 저장하는 엔티티
+- 주요 필드: id, userId, password, name, address, age
+- 연관관계:
+  - `@OneToMany` with Product (판매한 상품 목록)
+  - `@OneToMany` with Order (구매한 주문 목록)
+
+#### 2. Product (상품)
+- 중고 물품 정보를 저장하는 엔티티
+- 주요 필드: id, name, price, category, status, description, images
+- 연관관계:
+  - `@ManyToOne` with Member (판매자)
+  - `@OneToMany` with Order (해당 상품의 주문 목록)
+
+#### 3. Order (주문)
+- 구매 주문 정보를 저장하는 엔티티
+- BaseTimeEntity를 상속하여 생성/수정 시간 자동 관리
+- 주요 필드: id, price, status, createDate, modifyDate
+- 연관관계:
+  - `@ManyToOne` with Member (구매자)
+  - `@ManyToOne` with Product (구매한 상품)
+
+### 연관관계 구조
+
+```
+Member (1) ──< (N) Product (판매자 관계)
+Member (1) ──< (N) Order (구매자 관계)
+Product (1) ──< (N) Order (상품 관계)
 ```
 
 ---
@@ -188,26 +246,275 @@ http://localhost:5173
 
 ### 회원 관리 API (`/api/users`)
 
-| 메서드 | 엔드포인트 | 설명 |
-|--------|-----------|------|
-| POST | `/api/users` | 회원가입 |
-| POST | `/api/users/login` | 로그인 |
-| PUT | `/api/users/{id}` | 사용자 정보 수정 |
-| DELETE | `/api/users/{id}` | 회원 탈퇴 |
+#### POST `/api/users` - 회원가입
+
+**Request:**
+```json
+{
+  "id": "user123",
+  "pwd": "password123",
+  "name": "홍길동",
+  "address": "서울시 강남구",
+  "age": 25
+}
+```
+
+**Response:**
+- 성공 (201 Created): `"회원가입 성공!"`
+- 실패 (400 Bad Request): `"이미 존재하는 아이디입니다."`
+
+---
+
+#### POST `/api/users/login` - 로그인
+
+**Request:**
+```json
+{
+  "id": "user123",
+  "pwd": "password123"
+}
+```
+
+**Response:**
+- 성공 (200 OK):
+```json
+{
+  "id": 1,
+  "userId": "user123",
+  "name": "홍길동",
+  "address": "서울시 강남구",
+  "age": 25
+}
+```
+- 실패 (401 Unauthorized): `"아이디 또는 비밀번호가 일치하지 않습니다."`
+
+---
+
+#### PUT `/api/users/{id}` - 사용자 정보 수정
+
+**Path Variable:**
+- `id`: 회원 ID (Long)
+
+**Request:**
+```json
+{
+  "pwd": "newPassword123",
+  "name": "홍길동",
+  "address": "서울시 서초구",
+  "age": 26
+}
+```
+
+**Response:**
+- 성공 (200 OK):
+```json
+{
+  "id": 1,
+  "userId": "user123",
+  "name": "홍길동",
+  "address": "서울시 서초구",
+  "age": 26
+}
+```
+- 실패 (400 Bad Request): 에러 메시지
+
+---
+
+#### DELETE `/api/users/{id}` - 회원 탈퇴
+
+**Path Variable:**
+- `id`: 회원 ID (Long)
+
+**Request:**
+```json
+{
+  "pwd": "password123"
+}
+```
+
+**Response:**
+- 성공 (200 OK): `"회원 탈퇴가 완료되었습니다."`
+- 실패 (400 Bad Request): `"비밀번호가 일치하지 않습니다."`
+
+---
 
 ### 상품 관리 API (`/api/products`)
 
-| 메서드 | 엔드포인트 | 설명 |
-|--------|-----------|------|
-| POST | `/api/products?sellerId={id}` | 상품 등록 |
-| GET | `/api/products` | 전체 상품 조회 |
-| GET | `/api/products/{id}` | 상품 상세 조회 |
-| GET | `/api/products/category/{category}` | 카테고리별 조회 |
-| GET | `/api/products/category/{category}/status/{status}` | 카테고리+상태별 조회 |
-| GET | `/api/products/search?keyword={keyword}` | 상품 검색 |
-| PUT | `/api/products/{id}?sellerId={id}` | 상품 수정 |
-| PUT | `/api/products/{id}/status?status={상태}` | 상태 변경 |
-| DELETE | `/api/products/{id}?sellerId={id}` | 상품 삭제 |
+#### POST `/api/products?sellerId={id}` - 상품 등록
+
+**Query Parameter:**
+- `sellerId`: 판매자 ID (Long)
+
+**Request:**
+```json
+{
+  "name": "아이폰 14",
+  "price": 800000,
+  "category": "전자기기",
+  "description": "사용감 적은 아이폰 14입니다.",
+  "images": [
+    "https://example.com/image1.jpg",
+    "https://example.com/image2.jpg"
+  ]
+}
+```
+
+**Response:**
+- 성공 (201 Created):
+```json
+{
+  "id": 1,
+  "name": "아이폰 14",
+  "price": 800000,
+  "category": "전자기기",
+  "status": "판매중",
+  "seller": 1,
+  "description": "사용감 적은 아이폰 14입니다.",
+  "images": [
+    "https://example.com/image1.jpg",
+    "https://example.com/image2.jpg"
+  ]
+}
+```
+
+---
+
+#### GET `/api/products` - 전체 상품 조회
+
+**Response:**
+- 성공 (200 OK):
+```json
+[
+  {
+    "id": 1,
+    "name": "아이폰 14",
+    "price": 800000,
+    "category": "전자기기",
+    "status": "판매중",
+    "seller": 1,
+    "description": "사용감 적은 아이폰 14입니다.",
+    "images": ["https://example.com/image1.jpg"]
+  },
+  {
+    "id": 2,
+    "name": "나이키 운동화",
+    "price": 120000,
+    "category": "패션",
+    "status": "판매중",
+    "seller": 2,
+    "description": "새상품입니다.",
+    "images": []
+  }
+]
+```
+
+---
+
+#### GET `/api/products/{id}` - 상품 상세 조회
+
+**Path Variable:**
+- `id`: 상품 ID (Long)
+
+**Response:**
+- 성공 (200 OK):
+```json
+{
+  "id": 1,
+  "name": "아이폰 14",
+  "price": 800000,
+  "category": "전자기기",
+  "status": "판매중",
+  "seller": 1,
+  "description": "사용감 적은 아이폰 14입니다.",
+  "images": ["https://example.com/image1.jpg"]
+}
+```
+- 실패 (400 Bad Request): `"상품을 찾을 수 없습니다."`
+
+---
+
+#### GET `/api/products/category/{category}` - 카테고리별 조회
+
+**Path Variable:**
+- `category`: 카테고리명 (String) - 예: "전자기기", "패션", "뷰티"
+
+**Response:**
+- 성공 (200 OK): 상품 목록 배열 (위와 동일한 형식)
+
+---
+
+#### GET `/api/products/category/{category}/status/{status}` - 카테고리+상태별 조회
+
+**Path Variables:**
+- `category`: 카테고리명 (String)
+- `status`: 상태 (String) - "판매중", "예약중", "판매완료"
+
+**Response:**
+- 성공 (200 OK): 상품 목록 배열
+
+---
+
+#### GET `/api/products/search?keyword={keyword}` - 상품 검색
+
+**Query Parameter:**
+- `keyword`: 검색 키워드 (String)
+
+**Response:**
+- 성공 (200 OK): 상품명에 키워드가 포함된 상품 목록 배열
+
+---
+
+#### PUT `/api/products/{id}?sellerId={id}` - 상품 수정
+
+**Path Variable:**
+- `id`: 상품 ID (Long)
+
+**Query Parameter:**
+- `sellerId`: 판매자 ID (Long)
+
+**Request:**
+```json
+{
+  "name": "아이폰 14 Pro",
+  "price": 900000,
+  "category": "전자기기",
+  "status": "예약중",
+  "description": "수정된 설명입니다.",
+  "images": ["https://example.com/new-image.jpg"]
+}
+```
+
+**Response:**
+- 성공 (200 OK): 수정된 상품 정보 (ProductResponseDto 형식)
+- 실패 (400 Bad Request): `"본인의 상품만 수정할 수 있습니다."` 또는 `"상품을 찾을 수 없습니다."`
+
+---
+
+#### PUT `/api/products/{id}/status?status={상태}` - 상태 변경
+
+**Path Variable:**
+- `id`: 상품 ID (Long)
+
+**Query Parameter:**
+- `status`: 변경할 상태 (String) - "판매중", "예약중", "판매완료"
+
+**Response:**
+- 성공 (200 OK): 상태가 변경된 상품 정보
+- 실패 (400 Bad Request): `"상품을 찾을 수 없습니다."`
+
+---
+
+#### DELETE `/api/products/{id}?sellerId={id}` - 상품 삭제
+
+**Path Variable:**
+- `id`: 상품 ID (Long)
+
+**Query Parameter:**
+- `sellerId`: 판매자 ID (Long)
+
+**Response:**
+- 성공 (200 OK): `"상품이 삭제되었습니다."`
+- 실패 (400 Bad Request): `"본인의 상품만 삭제할 수 있습니다."` 또는 `"상품을 찾을 수 없습니다."`
 
 
 ## 개발 환경
@@ -217,7 +524,16 @@ http://localhost:5173
 **application.properties**
 ```properties
 server.port=8080
-spring.datasource.url=jdbc:h2:file:./MyShoppingDB
+
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+spring.datasource.url=jdbc:h2:file:./MyShoppingDB;AUTO_SERVER=TRUE
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
@@ -296,7 +612,7 @@ Repository (데이터베이스)
 
 ---
 
-## 📚 참고 자료
+## 참고 자료
 
 - [Spring Boot 공식 문서](https://spring.io/projects/spring-boot)
 - [React 공식 문서](https://react.dev)

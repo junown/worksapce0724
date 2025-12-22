@@ -21,7 +21,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProductRequestDto dto, @RequestParam Long sellerId) {
-        System.out.println("📢 상품 등록 요청 옴: " + dto.getName());
+        System.out.println(" 상품 등록 요청 옴: " + dto.getName());
         try {
             ProductResponseDto responseDto = productService.create(dto, sellerId);
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
@@ -32,14 +32,14 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ProductResponseDto>> getAll() {
-        System.out.println("📢 전체 상품 조회 요청 옴");
+        System.out.println(" 전체 상품 조회 요청 옴");
         List<ProductResponseDto> products = productService.getAll();
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        System.out.println("📢 상품 상세 조회 요청 옴: " + id);
+        System.out.println(" 상품 상세 조회 요청 옴: " + id);
         try {
             ProductResponseDto product = productService.getById(id);
             return ResponseEntity.ok(product);
@@ -50,7 +50,7 @@ public class ProductController {
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ProductResponseDto>> getByCategory(@PathVariable String category) {
-        System.out.println("📢 카테고리별 상품 조회 요청 옴: " + category);
+        System.out.println(" 카테고리별 상품 조회 요청 옴: " + category);
         List<ProductResponseDto> products = productService.getByCategory(category);
         return ResponseEntity.ok(products);
     }
@@ -59,14 +59,14 @@ public class ProductController {
     public ResponseEntity<List<ProductResponseDto>> getByCategoryAndStatus(
             @PathVariable String category,
             @PathVariable String status) {
-        System.out.println("📢 카테고리 및 상태별 상품 조회 요청 옴: " + category + ", " + status);
+        System.out.println(" 카테고리 및 상태별 상품 조회 요청 옴: " + category + ", " + status);
         List<ProductResponseDto> products = productService.getByCategoryAndStatus(category, status);
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<ProductResponseDto>> search(@RequestParam String keyword) {
-        System.out.println("📢 상품 검색 요청 옴: " + keyword);
+        System.out.println(" 상품 검색 요청 옴: " + keyword);
         List<ProductResponseDto> products = productService.searchByName(keyword);
         return ResponseEntity.ok(products);
     }
@@ -76,7 +76,7 @@ public class ProductController {
             @PathVariable Long id,
             @RequestBody ProductUpdateRequestDto dto,
             @RequestParam Long sellerId) {
-        System.out.println("📢 상품 수정 요청 옴: " + id);
+        System.out.println(" 상품 수정 요청 옴: " + id);
         try {
             ProductResponseDto responseDto = productService.update(id, dto, sellerId);
             return ResponseEntity.ok(responseDto);
@@ -89,7 +89,7 @@ public class ProductController {
     public ResponseEntity<?> updateStatus(
             @PathVariable Long id,
             @RequestParam String status) {
-        System.out.println("📢 상품 상태 변경 요청 옴: " + id + " -> " + status);
+        System.out.println(" 상품 상태 변경 요청 옴: " + id + " -> " + status);
         try {
             ProductResponseDto responseDto = productService.updateStatus(id, status);
             return ResponseEntity.ok(responseDto);
@@ -100,7 +100,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id, @RequestParam Long sellerId) {
-        System.out.println("📢 상품 삭제 요청 옴: " + id);
+        System.out.println(" 상품 삭제 요청 옴: " + id);
         try {
             productService.delete(id, sellerId);
             return ResponseEntity.ok("상품이 삭제되었습니다.");
