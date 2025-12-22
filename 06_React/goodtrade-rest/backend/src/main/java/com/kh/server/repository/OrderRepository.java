@@ -1,13 +1,18 @@
 package com.kh.server.repository;
 
 import com.kh.server.entity.Order;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository {
+    
+    Order save(Order order);
+    
+    Optional<Order> findById(Long id);
+    
+    List<Order> findAll();
+    
+    void delete(Order order);
     
     List<Order> findByBuyer_Id(Long buyerId);
     

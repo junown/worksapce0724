@@ -3,6 +3,7 @@ package com.kh.server.controller;
 import com.kh.server.dto.ProductRequestDto;
 import com.kh.server.dto.ProductResponseDto;
 import com.kh.server.dto.ProductUpdateRequestDto;
+import com.kh.server.service.OrderService;
 import com.kh.server.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final OrderService orderService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProductRequestDto dto, @RequestParam Long sellerId) {
@@ -92,6 +94,19 @@ public class ProductController {
         System.out.println(" 상품 상태 변경 요청 옴: " + id + " -> " + status);
         try {
             ProductResponseDto responseDto = productService.updateStatus(id, status);
+            return ResponseEntity.ok(responseDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/purchase")
+    public ResponseEntity<?> purchase(
+            @PathVariable Long id,
+            @RequestParam Long buyerId) {
+        System.out.println(" 상품 구매 요청 옴: " + id + ", 구매자: " + buyerId);
+        try {
+            ProductResponseDto responseDto = orderService.purchase(id, buyerId);
             return ResponseEntity.ok(responseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

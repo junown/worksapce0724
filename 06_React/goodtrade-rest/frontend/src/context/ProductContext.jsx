@@ -86,8 +86,22 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const purchaseProduct = async (productId, buyerId) => {
+    try {
+      const response = await axios.post(`/api/products/${productId}/purchase?buyerId=${buyerId}`);
+      
+      // 성공 시 목록 새로고침
+      await loadProducts();
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error("상품 구매 에러:", error);
+      const errorMsg = error.response?.data || "구매 처리 실패";
+      return { success: false, message: errorMsg };
+    }
+  };
+
   return (
-    <ProductContext.Provider value={{ products, loading, addProduct, updateProduct, deleteProduct, loadProducts }}>
+    <ProductContext.Provider value={{ products, loading, addProduct, updateProduct, deleteProduct, purchaseProduct, loadProducts }}>
       {children}
     </ProductContext.Provider>
   );

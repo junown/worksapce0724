@@ -92,10 +92,18 @@ goodtrade-rest/
 │   │   │   └── ProductController.java
 │   │   ├── service/            # 비즈니스 로직
 │   │   │   ├── MemberService.java
-│   │   │   └── ProductService.java
+│   │   │   ├── MemberServiceImpl.java
+│   │   │   ├── ProductService.java
+│   │   │   ├── ProductServiceImpl.java
+│   │   │   ├── OrderService.java
+│   │   │   └── OrderServiceImpl.java
 │   │   ├── repository/         # 데이터베이스 접근
 │   │   │   ├── MemberRepository.java
-│   │   │   └── ProductRepository.java
+│   │   │   ├── MemberRepositoryImpl.java
+│   │   │   ├── ProductRepository.java
+│   │   │   ├── ProductRepositoryImpl.java
+│   │   │   ├── OrderRepository.java
+│   │   │   └── OrderRepositoryImpl.java
 │   │   ├── entity/             # 데이터베이스 엔티티
 │   │   │   ├── BaseTimeEntity.java
 │   │   │   ├── Member.java
@@ -239,6 +247,32 @@ Member (1) ──< (N) Product (판매자 관계)
 Member (1) ──< (N) Order (구매자 관계)
 Product (1) ──< (N) Order (상품 관계)
 ```
+
+### Service 계층 구조
+
+- **MemberService**: 회원 관련 비즈니스 로직
+  - 회원가입 (아이디 중복 체크)
+  - 로그인 (아이디/비밀번호 검증)
+  - 회원 정보 수정
+  - 회원 탈퇴 (비밀번호 확인)
+  
+- **ProductService**: 상품 관련 비즈니스 로직
+  - 상품 등록, 조회, 수정, 삭제
+  - 카테고리별/상태별 필터링
+  - 상품명 검색
+  - 판매자 권한 확인
+  
+- **OrderService**: 주문 관련 비즈니스 로직
+  - 상품 구매 처리
+  - Order 엔티티 생성 및 저장
+  - 구매 유효성 검사 (본인 상품 구매 방지, 이미 판매완료 방지)
+
+### Repository 구조
+
+모든 Repository는 커스텀 구현체 방식으로 구현되어 있습니다:
+- **인터페이스**: 메서드 선언만
+- **Impl 클래스**: EntityManager를 사용하여 JPQL 쿼리 직접 작성
+- JPA의 메서드 이름 규칙 대신 명시적인 쿼리 작성으로 유지보수성 향상
 
 ---
 
@@ -504,6 +538,37 @@ Product (1) ──< (N) Order (상품 관계)
 
 ---
 
+#### POST `/api/products/{id}/purchase?buyerId={id}` - 상품 구매
+
+**Path Variable:**
+- `id`: 상품 ID (Long)
+
+**Query Parameter:**
+- `buyerId`: 구매자 ID (Long)
+
+**Response:**
+- 성공 (200 OK):
+```json
+{
+  "id": 1,
+  "name": "아이폰 14",
+  "price": 800000,
+  "category": "전자기기",
+  "status": "판매완료",
+  "seller": 1,
+  "description": "사용감 적은 아이폰 14입니다.",
+  "images": ["https://example.com/image1.jpg"]
+}
+```
+- 실패 (400 Bad Request): 
+  - `"자신의 상품은 구매할 수 없습니다."`
+  - `"이미 판매완료된 상품입니다."`
+  - `"상품을 찾을 수 없습니다."`
+
+**참고:** 구매 시 Order 테이블에 주문 정보가 자동으로 저장되며, 상품 상태가 "판매완료"로 변경됩니다.
+
+---
+
 #### DELETE `/api/products/{id}?sellerId={id}` - 상품 삭제
 
 **Path Variable:**
@@ -557,10 +622,24 @@ proxy: {
 ### 백엔드
 
 - **Controller**: REST API 엔드포인트 정의 및 요청/응답 처리
-- **Service**: 비즈니스 로직 구현 (회원가입, 로그인, 상품 CRUD 등)
-- **Repository**: 데이터베이스 쿼리 메서드 정의
+  - `MemberController`: 회원 관련 API (`/api/users`)
+  - `ProductController`: 상품 관련 API (`/api/products`)
+- **Service**: 비즈니스 로직 구현
+  - `MemberService`: 회원가입, 로그인, 정보 수정, 탈퇴
+  - `ProductService`: 상품 CRUD, 검색, 필터링
+  - `OrderService`: 상품 구매 처리 (Order 생성)
+- **Repository**: 데이터베이스 접근 계층
+  - 인터페이스: 메서드 선언
+  - Impl 클래스: EntityManager를 사용한 JPQL 쿼리 직접 구현
+  - `MemberRepository`, `ProductRepository`, `OrderRepository`
 - **Entity**: 데이터베이스 테이블 구조 정의
+  - `Member`: 회원 정보
+  - `Product`: 상품 정보
+  - `Order`: 주문 정보
+  - `BaseTimeEntity`: 생성/수정 시간 자동 관리
 - **DTO**: 클라이언트와 서버 간 데이터 전송 형식 정의
+  - Request DTO: 클라이언트에서 서버로 전송
+  - Response DTO: 서버에서 클라이언트로 전송
 
 ### 프론트엔드
 

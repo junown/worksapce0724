@@ -9,7 +9,7 @@ import {
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const { products, updateProduct, deleteProduct } = useContext(ProductContext);
+    const { products, updateProduct, deleteProduct, purchaseProduct } = useContext(ProductContext);
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
 
@@ -72,10 +72,7 @@ const ProductDetail = () => {
       }
 
       if(window.confirm('정말로 이 상품을 구매하시겠습니까?')){
-        const result = await updateProduct({
-          ...product,
-          status: '판매완료'
-        });
+        const result = await purchaseProduct(product.id, user.id);
 
         if (result.success) {
           alert('구매가 완료되었습니다! 감사합니다');
@@ -145,7 +142,7 @@ const ProductDetail = () => {
           <MetaInfo>
             <div>
               <span>판매자</span>
-              <span>{product.seller}</span>
+              <span>{product.sellerName || product.seller}</span>
             </div>
           </MetaInfo>
 

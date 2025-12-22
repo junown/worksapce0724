@@ -13,6 +13,7 @@ public class ProductResponseDto {
     private String category;
     private String status;
     private Long seller; 
+    private String sellerName;
     private String description;
     private List<String> images;
 
@@ -23,6 +24,7 @@ public class ProductResponseDto {
         this.category = product.getCategory();
         this.status = product.getStatus();
         this.seller = product.getSeller() != null ? product.getSeller().getId() : null;
+        this.sellerName = product.getSeller() != null ? product.getSeller().getName() : null;
         this.description = product.getDescription();
         
         if (product.getImages() != null && !product.getImages().isEmpty()) {
