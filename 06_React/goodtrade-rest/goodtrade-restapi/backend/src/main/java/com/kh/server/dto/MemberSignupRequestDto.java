@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class MemberSignupRequestDto {
+    // 1. 리액트에서 보내는 이름(key)과 똑같이 맞춰줍니다.
     private String id;
     private String pwd;
     private String name;
