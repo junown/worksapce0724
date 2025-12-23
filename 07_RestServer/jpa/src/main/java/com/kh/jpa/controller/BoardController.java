@@ -45,17 +45,18 @@ public class BoardController {
             return ResponseEntity.ok(new PageResponse<>(page));
     }
 
-    //게시글 수정
     @PatchMapping("/{boardId}")
     public ResponseEntity<BoardDto.Response> updateBoard(
             @PathVariable("boardId") Long boardId,
-            @ModelAttribute BoardDto.Update updateBoardDto) throws IOException {
-        BoardDto.Response response = boardService.updateBoard(boardId, updateBoardDto);
-        return ResponseEntity.ok(response);
+            @ModelAttribute BoardDto.Update updateBoard
+    ) throws IOException {
+
+        BoardDto.Response boardDto = boardService.updateBoard(boardId, updateBoard);
+        return ResponseEntity.ok(boardDto);
     }
 
-//    @DeleteMapping("/{boardId}")
-//    public ResponseEntity<Void> deleteBoard(@PathVariable("boardId") Long boardId) {
-//
-//    }
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable("boardId") Long boardId) {
+        boardService.deleteBoard(boardId);
+    }
 }

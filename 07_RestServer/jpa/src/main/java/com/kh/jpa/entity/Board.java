@@ -63,6 +63,20 @@ public class Board extends BaseTimeEntity{
         if(changeName != null) this.changeName = changeName;
     }
 
+    public void update(String title, String content, String originName, String changeName) {
+        this.changeFile(originName, changeName);
+        if(title != null) this.boardTitle = title;
+        if(content != null) this.boardContent = content;
+    }
+
+//    public void changeTitle(String title){
+//        if(title != null) this.boardTitle = title;
+//    }
+//
+//    public void changeContent(String content){
+//        if(content != null) this.boardContent = content;
+//    }
+
     public void addTag(Tag tag){
         BoardTag boardTag = BoardTag.builder()
                 .tag(tag)
@@ -70,18 +84,5 @@ public class Board extends BaseTimeEntity{
 
         boardTag.changeBoard(this);
         this.boardTags.add(boardTag);
-    }
-
-    //게시글 정보 전체수정 메서드
-    public void putUpdate(String boardTitle, String boardContent, String originName, String changeName) {
-        this.boardTitle = boardTitle;
-        this.boardContent = boardContent;
-        if(originName != null) this.originName = originName;
-        if(changeName != null) this.changeName = changeName;
-    }
-
-    //기존 태그 모두 제거
-    public void clearTags() {
-        this.boardTags.clear();
     }
 }

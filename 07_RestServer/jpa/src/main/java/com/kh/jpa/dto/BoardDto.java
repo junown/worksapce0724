@@ -4,8 +4,6 @@ import com.kh.jpa.entity.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -14,9 +12,7 @@ import java.util.List;
 public class BoardDto {
 
     @Getter
-    @Setter
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class Create{
         private String board_title;
         private String board_content;
@@ -30,17 +26,6 @@ public class BoardDto {
                     .boardContent(board_content)
                     .build();
         }
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Update{
-        private String board_title;
-        private String board_content;
-        private MultipartFile file;
-        private List<String> tags;
     }
 
     @Getter
@@ -88,5 +73,14 @@ public class BoardDto {
                     .create_date(createDate)
                     .build();
         }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Update{
+        private String board_title;
+        private String board_content;
+        private MultipartFile file;
+        private List<String> tags;
     }
 }
