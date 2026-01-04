@@ -1,7 +1,6 @@
 package com.kh.server.controller;
 
 import com.kh.server.dto.MemberDeleteRequestDto;
-import com.kh.server.dto.MemberLoginRequestDto;
 import com.kh.server.dto.MemberLoginResponseDto;
 import com.kh.server.dto.MemberSignupRequestDto;
 import com.kh.server.dto.MemberUpdateRequestDto;
@@ -29,16 +28,6 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto dto) {
-        System.out.println(" 로그인 요청 옴: " + dto.getId());
-        try {
-            MemberLoginResponseDto responseDto = memberService.login(dto);
-            return ResponseEntity.ok(responseDto);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody MemberUpdateRequestDto dto) {

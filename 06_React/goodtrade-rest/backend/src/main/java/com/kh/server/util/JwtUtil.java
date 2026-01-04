@@ -61,8 +61,11 @@ public class JwtUtil {
     // JWT 토큰 유효성 검증
     public boolean validateToken(String token) {
         try {
-            getClaimsFromToken(token);
-            return true;
+            if (token == null || token.isEmpty()) {
+                return false;
+            }
+            Claims claims = getClaimsFromToken(token);
+            return !isTokenExpired(claims);
         } catch (Exception e) {
             return false;
         }
@@ -72,11 +75,16 @@ public class JwtUtil {
     public boolean isTokenExpired(String token) {
         try {
             Claims claims = getClaimsFromToken(token);
-            Date expiration = claims.getExpiration();
-            return expiration.before(new Date());
+            return isTokenExpired(claims);
         } catch (Exception e) {
             return true;
         }
+    }
+
+    // Claims에서 만료 여부 확인
+    private boolean isTokenExpired(Claims claims) {
+        Date expiration = claims.getExpiration();
+        return expiration.before(new Date());
     }
 }
 

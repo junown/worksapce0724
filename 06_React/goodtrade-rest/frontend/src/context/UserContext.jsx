@@ -69,7 +69,7 @@ export const UserProvider = ({ children }) => {
 
   const login = async (id, pwd) => {
     try {
-      const response = await axios.post('/api/users/login', { id, pwd });
+      const response = await axios.post('/api/auth/login', { id, pwd });
       
       if (response.status === 200) {
         console.log("로그인 성공:", response.data);
