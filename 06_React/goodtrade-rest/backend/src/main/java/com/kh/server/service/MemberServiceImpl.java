@@ -7,6 +7,7 @@ import com.kh.server.dto.MemberSignupRequestDto;
 import com.kh.server.dto.MemberUpdateRequestDto;
 import com.kh.server.entity.Member;
 import com.kh.server.repository.MemberRepository;
+import com.kh.server.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final JwtUtil jwtUtil;
 
     @Override
     @Transactional
@@ -35,7 +37,10 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
 
-        return new MemberLoginResponseDto(member);
+        // JWT 토큰 생성
+        String token = jwtUtil.generateToken(member.getId(), member.getUserId());
+
+        return new MemberLoginResponseDto(member, token);
     }
 
     @Override

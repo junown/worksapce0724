@@ -4,6 +4,33 @@ import axios from 'axios';
 // eslint-disable-next-line react-refresh/only-export-components
 export const UserContext = createContext();
 
+// axios interceptor 설정 - 모든 요청에 JWT 토큰 자동 첨부
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// axios interceptor 설정 - 401 에러 시 자동 로그아웃
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('loginUser');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const UserProvider = ({ children }) => {
   
 
@@ -17,6 +44,7 @@ export const UserProvider = ({ children }) => {
       localStorage.setItem('loginUser', JSON.stringify(user));
     } else {
       localStorage.removeItem('loginUser');
+      localStorage.removeItem('token');
     }
   }, [user]);
 
@@ -45,7 +73,15 @@ export const UserProvider = ({ children }) => {
       
       if (response.status === 200) {
         console.log("로그인 성공:", response.data);
-        setUser(response.data);
+        const { token, ...userData } = response.data;
+        
+        // JWT 토큰 저장
+        if (token) {
+          localStorage.setItem('token', token);
+        }
+        
+        // 사용자 정보 저장
+        setUser(userData);
         return true;
       }
     } catch (error) {
@@ -57,6 +93,8 @@ export const UserProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('loginUser');
   };
 
   const updateUser = async (newUserInfo) => {

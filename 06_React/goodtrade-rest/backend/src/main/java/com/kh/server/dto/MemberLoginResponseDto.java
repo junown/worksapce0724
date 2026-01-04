@@ -10,6 +10,7 @@ public class MemberLoginResponseDto {
     private String name;
     private String address;
     private int age;
+    private String token;
 
     public MemberLoginResponseDto(Member member) {
         this.id = member.getId();
@@ -17,5 +18,14 @@ public class MemberLoginResponseDto {
         this.name = member.getName();
         this.address = member.getAddress();
         this.age = member.getAge();
+    }
+
+    public MemberLoginResponseDto(Member member, String token) {
+        this.id = member.getId();
+        this.userId = member.getUserId();
+        this.name = member.getName();
+        this.address = member.getAddress();
+        this.age = member.getAge();
+        this.token = token;
     }
 }
